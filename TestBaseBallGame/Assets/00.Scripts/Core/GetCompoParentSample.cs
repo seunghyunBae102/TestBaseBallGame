@@ -4,11 +4,19 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GetCompoParentSample<T> : MonoBehaviour,IGetCompoParent<T> where T : IGetCompoParent<T>
+public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T : IGetCompoParent<T>
 {
     protected Dictionary<Type,IGetCompoable<T>> _components = new Dictionary<Type, IGetCompoable<T>>();
 
-   // public EventBus EventBus { get; private set; }
+    // public EventBus EventBus { get; private set; }
+    protected virtual void Awake()
+    {
+        //EventBus = new EventBus(); // EventBus 초기화를 Awake에서 수행
+
+        Init();
+
+    }
+
     public void RegisterEvents()
     {
         foreach (var compo in _components.Values)
@@ -32,13 +40,7 @@ public class GetCompoParentSample<T> : MonoBehaviour,IGetCompoParent<T> where T 
             }
         }
     }
-    protected virtual void Awake()
-    {
-        //EventBus = new EventBus(); // EventBus 초기화를 Awake에서 수행
-        
-        Init();
 
-    }
 
     public virtual void AddCompoDic(Type type, IGetCompoable<T> compo)
     {
@@ -56,8 +58,6 @@ public class GetCompoParentSample<T> : MonoBehaviour,IGetCompoParent<T> where T 
         K instance = gameObject.AddComponent<K>();
         _components.Add(instance.GetType(), instance);
     }
-
-
     public virtual K GetCompo<K>(bool isIncludeChild = false) where K : Component, IGetCompoable<T>
     {
         if (_components.TryGetValue(typeof(K), out var component))
@@ -138,10 +138,10 @@ public class GetCompoParentSample<T> : MonoBehaviour,IGetCompoParent<T> where T 
             babies[i].Init(this is T parent ? parent : default);
         }
 
-        IAfterInitable[] babies2 = GetComponentsInChildren<IAfterInitable>(true);
+        ILifeCycleable<T>[] babies2 = GetComponentsInChildren<ILifeCycleable<T>>(true);
         for (int i = 0; i < babies2.Length; i++)
         {
-            babies2[i].AfterInit();
+            babies2[i].Init(this is T parent ? parent : default);
         }
 
         RegisterEvents();

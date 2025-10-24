@@ -4,20 +4,21 @@ public class GameManager : GetCompoParentSample<GameManager>
 {
     private static GameManager _instance;
 
-
-
-public static GameManager GetGameManager()
+    public static GameManager Instance
     {
-        if(_instance == null)
+        get
         {
-           _instance = new GameObject("GameManager", typeof(GameManager)).GetComponent<GameManager>();
-        }
-        else
-        {
-            
-        }
+            if (_instance == null)
+            {
+                _instance = new GameObject("GameManager", typeof(GameManager)).GetComponent<GameManager>();
+            }
+            else
+            {
+
+            }
 
             return _instance;
+        }
     }
 
     protected override void Awake()
@@ -26,7 +27,7 @@ public static GameManager GetGameManager()
         base.Awake();
     }
 
-    public void Init()
+    public override void Init()
     {
         if( _instance == null )
         {
@@ -37,6 +38,7 @@ public static GameManager GetGameManager()
         {
            
         }
+        base.Init();
     }
 
     public override T GetCompo<T>(bool isIncludeChild = false)
@@ -47,7 +49,7 @@ public static GameManager GetGameManager()
         }
         return base.GetCompo<T>(isIncludeChild);
 
-        //Create COmpo when No Compo HEHEHA
+        //Create Compo when No Compo HEHEHA
     }
 }
 

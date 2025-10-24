@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GetableManager : MonoBehaviour,IGetCompoable<GameManager>
+public class GetableManager : BaseGameCompo,IGetCompoable<GameManager>
 {
     [HideInInspector]
     public GameManager Mom;
@@ -25,14 +25,16 @@ public class GetableManager : MonoBehaviour,IGetCompoable<GameManager>
     {
         if(Mom == null)
         {
-            Transform trm = GetComponent<Transform>();
+            //Transform trm = GetComponent<Transform>();
 
-            while(trm.parent != null && trm.gameObject.GetComponent<GameManager>())
-            {
-                trm = trm.parent;
-            }
+            //while(trm.parent != null && trm.gameObject.GetComponent<GameManager>())
+            //{
+            //    trm = trm.parent;
+            //}
+            //Init(trm.GetComponent<GameManager>());
+            if (GameManager.Instance != null)
+                Init(GameManager.Instance);
 
-            Init(trm.GetComponent<GameManager>());
         }
     }
 }
