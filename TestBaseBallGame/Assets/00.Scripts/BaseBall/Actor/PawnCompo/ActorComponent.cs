@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class ActorComponent : BaseGameCompo, IGetCompoable<Actor>
 {
-    public void Init(Actor mom)
+    [HideInInspector]
+    public Actor Mom;
+    public virtual void Init(Actor mom)
     {
+        Mom = mom;
         mom.AddCompoDic(this.GetType(), this);
     }
 

@@ -1,23 +1,39 @@
 using UnityEngine;
 using System.Collections;
 using System.Threading.Tasks;
-
+using UnityEngine.Audio;
+[RequireComponent(typeof(AudioSource))]
 public class SoundManager : GetableManager
 {
     protected PoolManager _pool;
+    protected AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
     public void SetCompoParent(GameManager p)
     {
         _pool = p.GetCompo<PoolManager>();
     }
 
-    public void PlayOneShotAt(AudioClip clip, Vector3 pos)
+    public void PlaySound(AudioResource clip, Vector3 pos)
     {
         var go = _pool.Spawn("OneShotAudio", pos, Quaternion.identity);
-        var src = go.GetComponent<AudioSource>();
-        src.clip = clip;
-        src.Play();
-        
+        go.OnSpawned(clip);
+
         //StartCoroutine(ReturnOnEnd(src, go));
+    }
+
+    public void PlaySound(AudioResource clip)
+    {
+        _audioSource.PlayOneShot(_audioSource.clip);
+    }
+
+    public void PlayLoopSound(AudioResource clip)
+    {
+
     }
 
     //IEnumerator ReturnOnEnd(AudioSource s, PoolingObj go)

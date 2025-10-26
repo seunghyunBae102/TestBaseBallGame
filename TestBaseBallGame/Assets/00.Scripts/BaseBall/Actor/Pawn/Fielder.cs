@@ -1,16 +1,24 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
-public class Fielder : MonoBehaviour
+
+[RequireComponent(typeof(PawnMovement))]
+public class Fielder : Pawn
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public PawnMovement MovementCompo;
+
+
+    public void InitCharacter()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MovementInput(Vector3 dir)
     {
-        
+        MovementCompo.SetMovementInput(dir);
     }
+
+
+
+
 }

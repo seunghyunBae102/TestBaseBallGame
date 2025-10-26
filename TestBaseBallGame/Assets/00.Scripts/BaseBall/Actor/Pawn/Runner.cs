@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class Runner : MonoBehaviour
+public class Runner : Pawn
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public PawnMovement MovementCompo;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

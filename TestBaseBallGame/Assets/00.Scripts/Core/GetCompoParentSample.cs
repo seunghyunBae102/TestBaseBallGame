@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -81,18 +82,29 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
         _components.Clear();
     }
 
-    public IGetCompoable<T> GetCompo(Type type)
+    public virtual IGetCompoable<T> GetCompo(Type type)
     {
         return _components.TryGetValue(type, out var component) ? component : default;
     }
 
-    public U GetCompo<U>() where U : IGetCompoable<T>
+    public virtual U GetCompo<U>() where U : IGetCompoable<T>
     {
         if (_components.TryGetValue(typeof(U), out var component) && component is U result)
         {
             return result;
         }
         return default;
+    }
+    public virtual U GetOrAddCompo<U>() where U : Component,IGetCompoable<T>
+    {
+        if (_components.TryGetValue(typeof(U), out var component) && component is U result)
+        {
+            return result;
+        }
+        
+        AddRealCompo<U>();
+
+        return GetCompo<U>();
     }
 
     public bool HasCompo(Type type)

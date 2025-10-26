@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PoolingObj : GetCompoParentSample<PoolingObj>
 {
-    protected PoolManager _mgr;
+    protected PoolManager _poolManager;
     protected string _id;
-    public void Bind(PoolManager mgr, string id) { _mgr = mgr; _id = id; }
+    public void Bind(PoolManager mgr, string id) { _poolManager = mgr; _id = id; }
 
-    public void Return() => _mgr?.Despawn(_id, this);
+    public void Return() => _poolManager?.Despawn(_id, this);
 
     // 예: 파티클 끝나면 자동 반납
     void OnParticleSystemStopped() => Return();
