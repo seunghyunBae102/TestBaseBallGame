@@ -1,16 +1,14 @@
 using UnityEngine;
 
-public class BaseBallRule : MonoBehaviour
+public class BaseBallRule : BaseBallGetableManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void InitHitedBall()
     {
-        
+
+    }
+    public void ChangeState()
+    {
+
     }
 }

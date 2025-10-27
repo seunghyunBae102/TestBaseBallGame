@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine.Audio;
 [RequireComponent(typeof(AudioSource))]
 public class SoundManager : GetableManager

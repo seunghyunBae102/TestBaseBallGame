@@ -43,6 +43,7 @@ public class BatSkillSO : ScriptableObject
         // lower y -> ground hit
 
         // closer SweetSpotPos -> more power
+        
 
     }
 
