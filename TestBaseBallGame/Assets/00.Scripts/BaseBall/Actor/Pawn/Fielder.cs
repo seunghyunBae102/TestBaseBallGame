@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(PawnMovement))]
-public class Fielder : Pawn
+public class Fielder : Pawn,IBallHitable
 {
     public PawnMovement MovementCompo;
 
@@ -18,7 +18,8 @@ public class Fielder : Pawn
         MovementCompo.SetMovementInput(dir);
     }
 
-
-
-
+    public void OnHitByBall(HitedBall ball, RaycastHit hit) //잡는 기능도 분리 하는 게 좋으려나?
+    {
+        throw new System.NotImplementedException();
+    }
 }
