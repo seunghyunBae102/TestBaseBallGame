@@ -43,7 +43,8 @@ public class BatSkillSO : ScriptableObject
         // lower y -> ground hit
 
         // closer SweetSpotPos -> more power
-        
+
+        Vector3 hitedBallVelocity = new Vector3(0f,0f,5f) + ball.currentPos - bat.BatPosition;
 
     }
 
