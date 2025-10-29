@@ -1086,24 +1086,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14f29648a8973c429ce7fe5b26e1c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 800957149}
   target: {fileID: 1234372333}
-  ri: {fileID: 0}
-  speed: 10
-  la:
+  speed: 5
+  turnLerp: 0.15
+  probeRadius: 0.25
+  probeDist: 1.2
+  obstacleMask:
     serializedVersion: 2
     m_Bits: 51
-  character: {fileID: 800957149}
-  use8Dirs: 1
-  step: 0.5
-  probe: 1
-  agentRadius: 0.6
-  rolloutDepth: 3
-  beamWidth: 4
-  branchPerNode: 8
-  wHeu: 1
-  wTurn: 0.3
-  wBack: 0.7
-  wStuck: 2
+  tick: 0.3
+  wGoal: 1
+  wClear: 1.25
+  wContinuity: 0.35
+  minAcceptScore: 0.1
 --- !u!143 &800957149
 CharacterController:
   m_ObjectHideFlags: 0
