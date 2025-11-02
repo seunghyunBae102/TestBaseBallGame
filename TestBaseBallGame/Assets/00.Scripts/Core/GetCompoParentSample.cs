@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T : IGetCompoParent<T>

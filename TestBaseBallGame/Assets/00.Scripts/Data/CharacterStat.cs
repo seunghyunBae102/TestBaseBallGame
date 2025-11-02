@@ -13,4 +13,5 @@ public class CharacterStat
     public float TeamWork;
     public float Hunger;
 
+
 }

@@ -1,16 +1,6 @@
 using UnityEngine;
 
-public class FielderController : MonoBehaviour
+public class FielderController : Controller
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //Fielder들을 움직일 컨트롤러
 }

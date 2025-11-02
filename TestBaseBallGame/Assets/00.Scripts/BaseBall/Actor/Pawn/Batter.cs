@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 
@@ -9,8 +11,20 @@ public class Batter : ActorComponent
     public Vector3 BatPosition;
     public BatSkillSO BatSO;
 
+    public event Action<Vector2> OnMoveBatPosition;
+
+    protected bool _isSwinging = false;
+
+    public void MoveBat(Vector2 pos)
+    {
+        BatPosition = new Vector3(pos.x, pos.y, 0f);
+        OnMoveBatPosition?.Invoke(pos);
+    }
+
     public bool CheckBallHit(BattingBall ball)
     {
+        if(!_isSwinging)
+            return false;
 
         return BatSO.HitBat(ball,this);
 
@@ -29,7 +43,14 @@ public class Batter : ActorComponent
 
     public void SwingBat()
     {
-
+        _isSwinging = true;
+        
+        GameManager.Instance.GetCompo<TimerManager>().AddTimer(EndSwing,BatSO.SwingDuration);
         //GameManager.Instance.GetCompo<BaseBallGameManager>().GetCompo<BaseBallBattingManager>().BatterSwingBat(this);
+    }
+
+    public void EndSwing()
+    {
+        _isSwinging = false;
     }
 }

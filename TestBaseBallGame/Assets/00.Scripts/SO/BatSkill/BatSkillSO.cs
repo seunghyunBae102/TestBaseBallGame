@@ -21,6 +21,8 @@ public class BatSkillSO : ScriptableObject
 
     public BatExtenceData BatHitBox;
 
+    public float SwingDuration = 0.3f;
+
     public virtual bool HitBat(BattingBall ball,Batter bat)
     {
         Vector3 leftDown = BatHitBox.Pos + bat.BatPosition - (BatHitBox.Scale / 2);

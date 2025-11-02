@@ -11,6 +11,5 @@ public class Batting : Actor
     public void SwingBat()
     {
         
-        // Implement swing bat logic here
     }
 }

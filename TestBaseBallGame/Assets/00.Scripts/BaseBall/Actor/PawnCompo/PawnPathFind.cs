@@ -3,63 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PawnPathFind : MonoBehaviour
+public class PawnPathFind : BaseBallGetableManager
 {
-    public Transform target;
-    public Rigidbody ri;
-    public float speed;
-    Vector3 maxtmp = new Vector3(10, 1, 10);
+    //Fielder, Runner 등에서 장애물 피해서 가는 기능 구현용 매니저 컴포넌트
+    private Vector3 _maxtmp = new Vector3(10, 1, 10);
     public LayerMask la;
-    List<Vector3> dir = new List<Vector3>();
-    List<float> dis = new List<float>();
-    public CharacterController character;
+    private List<Vector3> _dir = new List<Vector3>();
+    private List<float> _dis = new List<float>();
 
-    private void Start()
+    public void PathFind(Transform target ,float raidius=0.5f, float speed = 10)
     {
-        StartCoroutine(Pathfind(0.3f));
-    }
-    public IEnumerator Pathfind(float tick , float raidius =0.25f)
-    {
-        WaitForSeconds delay = new(tick);
-        while (true)
+        if (!Physics.SphereCast(transform.position, raidius, target.position - transform.position, out RaycastHit hit, (target.position - transform.position).magnitude, la, QueryTriggerInteraction.Ignore))
         {
-
-            if(Physics.SphereCast(transform.position, raidius, target.position-transform.position, out RaycastHit hit, 1f, la, QueryTriggerInteraction.Ignore))
-
-            dir.Clear();
-            dis.Clear();
+            _maxtmp = (target.position - transform.position).normalized;
+        }
+        else
+        {
+            _dir.Clear();
+            _dis.Clear();
 
             for (int i = -1; i <= 1; i++)
             {
                 for (int i2 = -1; i2 <= 1; i2++)
                 {
                     if (((i != 0 || i2 != 0) && (i * i2 == 0)))
-                        if (!(Physics.SphereCast(transform.position, raidius, Vector3.forward * i2 + Vector3.right * i,out RaycastHit hit,1f, la, QueryTriggerInteraction.Ignore)))//(!Physics.SphereCast(transform.position, 0.3f, Vector3.forward * i + Vector3.right * i2, out RaycastHit ray, 0.05f, la))
+                        if (!(Physics.SphereCast(transform.position, raidius, Vector3.forward * i2 + Vector3.right * i, out RaycastHit hit2, 1f, la, QueryTriggerInteraction.Ignore)))//(!Physics.SphereCast(transform.position, 0.3f, Vector3.forward * i + Vector3.right * i2, out RaycastHit ray, 0.05f, la))
                         {
-                            dir.Add((Vector3.right * i + Vector3.forward * i2).normalized * 0.6f);
+                            _dir.Add((Vector3.right * i + Vector3.forward * i2).normalized * 0.6f);
                         }
                 }
             }
-            for (int i = 0; i < dir.Count; i++)
+            for (int i = 0; i < _dir.Count; i++)
             {
-                dis.Add(Vector3.Distance(transform.position + dir[i], target.position));
-                if (dir[i] == maxtmp * -1)
+                _dis.Add(Vector3.Distance(transform.position + _dir[i], target.position));
+                if (_dir[i] == _maxtmp * -1)
                 {
-                    dis[i] = 1024;
+                    _dis[i] = 1024;
                 }
             }
-            maxtmp = dir[dis.IndexOf(dis.Min())];
-
-            //ri.velocity = maxtmp.normalized * speed + Vector3.up * ri.velocity.y;
-            //ri.AddForce(transform.up * -5, ForceMode.Impulse);
-            yield return delay;
+            _maxtmp = _dir[_dis.IndexOf(_dis.Min())];
         }
     }
-    void FixedUpdate()
-    {
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(-maxtmp, transform.up), 0.1f);
-        character.SimpleMove(maxtmp.normalized * speed);
-
-    }
 }

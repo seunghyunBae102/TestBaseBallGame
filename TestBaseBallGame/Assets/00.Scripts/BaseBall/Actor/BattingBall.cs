@@ -36,10 +36,11 @@ public class BattingBall : ActorComponent
         {
             _ballSkill.BallMovement(this);
 
-            if(currentPos.z < 0f)
-            {
-                StopBall();
-            }
+
+            //if(currentPos.z < 0f)
+            //{
+            //    StopBall();
+            //}
         }
     }
 

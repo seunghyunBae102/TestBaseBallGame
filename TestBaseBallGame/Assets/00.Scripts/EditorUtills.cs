@@ -42,7 +42,7 @@ public class ConditionalFieldDrawer : PropertyDrawer
         var cond = attribute as ConditionalFieldAttribute;
         if (cond == null) return true;
 
-        // 찾기
+        // ???
         string path = property.propertyPath;
         string conditionPath = path.Replace(property.name, cond.boolVariableName);
         var boolProp = property.serializedObject.FindProperty(conditionPath);
@@ -53,7 +53,7 @@ public class ConditionalFieldDrawer : PropertyDrawer
             return cond.inverse ? !val : val;
         }
 
-        return true; // 못 찾으면 보이게
+        return true; // ?? ????? ?????
     }
 }
 #endregion

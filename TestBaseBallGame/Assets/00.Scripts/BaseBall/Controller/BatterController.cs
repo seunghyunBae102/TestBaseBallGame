@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class BatterController : MonoBehaviour
+public class BatterController : Controller
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    //Batter를 움직일 컨트롤러
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //FollowUI 등이 스윙 등을 호출하면 그걸 배터에게 전해주는 구조.
 }
