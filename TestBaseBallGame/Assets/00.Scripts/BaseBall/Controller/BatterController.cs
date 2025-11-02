@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BatterController : Controller
 {
-    //Batter¸¦ ¿òÁ÷ÀÏ ÄÁÆ®·Ñ·¯
+    //Batterë¥¼ ì›€ì§ì¼ ì»¨íŠ¸ë¡¤ëŸ¬
 
-    //FollowUI µîÀÌ ½ºÀ® µîÀ» È£ÃâÇÏ¸é ±×°É ¹èÅÍ¿¡°Ô ÀüÇØÁÖ´Â ±¸Á¶.
+    //FollowUI ë“±ì´ ìŠ¤ìœ™ ë“±ì„ í˜¸ì¶œí•˜ë©´ ê·¸ê±¸ ë°°í„°ì—ê²Œ ì „í•´ì£¼ëŠ” êµ¬ì¡°.
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class SurfaceProps
 {
-    public string key;            // tag/PhysicMaterial.name µî
-    [Range(0, 1)] public float restitution = 0.35f; // e: Åº¼º°è¼ö(ÀÜµğ ³·°Ô)
-    [Range(0, 2)] public float friction = 0.6f;   // ¥ì: Ãæµ¹ Á¢¼± °¨¼Ó
-    [Range(0, 0.2f)] public float rollingResistance = 0.04f; // ¥ì_r: ±¸¸§ ÀúÇ×
-    [Range(0, 1)] public float spinDamping = 0.1f;  // È¸Àü °¨¼è
+    public string key;            // tag/PhysicMaterial.name ë“±
+    [Range(0, 1)] public float restitution = 0.35f; // e: íƒ„ì„±ê³„ìˆ˜(ì”ë”” ë‚®ê²Œ)
+    [Range(0, 2)] public float friction = 0.6f;   // Î¼: ì¶©ëŒ ì ‘ì„  ê°ì†
+    [Range(0, 0.2f)] public float rollingResistance = 0.04f; // Î¼_r: êµ¬ë¦„ ì €í•­
+    [Range(0, 1)] public float spinDamping = 0.1f;  // íšŒì „ ê°ì‡ 
 }
 
 [CreateAssetMenu(menuName = "Baseball/Physics/SurfaceCatalog")]

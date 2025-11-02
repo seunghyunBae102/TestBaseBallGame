@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    //PawnµéÀ» ¿òÁ÷ÀÏ ÄÁÆ®·Ñ·¯
+    //Pawnë“¤ì„ ì›€ì§ì¼ ì»¨íŠ¸ë¡¤ëŸ¬
 }

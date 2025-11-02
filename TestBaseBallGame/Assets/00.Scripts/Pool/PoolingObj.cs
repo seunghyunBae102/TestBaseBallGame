@@ -8,7 +8,7 @@ public class PoolingObj : GetCompoParentSample<PoolingObj>
 
     public void Return() => _poolManager?.Despawn(_id, this);
 
-    // ¿¹: ÆÄÆ¼Å¬ ³¡³ª¸é ÀÚµ¿ ¹Ý³³
+    // ì˜ˆ: íŒŒí‹°í´ ëë‚˜ë©´ ìžë™ ë°˜ë‚©
     void OnParticleSystemStopped() => Return();
     public virtual void OnSpawned()
     {

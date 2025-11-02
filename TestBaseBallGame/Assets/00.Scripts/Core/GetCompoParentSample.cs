@@ -10,7 +10,7 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
     // public EventBus EventBus { get; private set; }
     protected virtual void Awake()
     {
-        //EventBus = new EventBus(); // EventBus ÃÊ±âÈ­¸¦ Awake¿¡¼­ ¼öÇà
+        //EventBus = new EventBus(); // EventBus ì´ˆê¸°í™”ë¥¼ Awakeì—ì„œ ìˆ˜í–‰
 
         Init();
 
@@ -20,7 +20,7 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
     {
         foreach (var compo in _components.Values)
         {
-            // this¸¦ T·Î Ä³½ºÆÃÇÏ¿© Àü´Ş
+            // thisë¥¼ Të¡œ ìºìŠ¤íŒ…í•˜ì—¬ ì „ë‹¬
             if (this is T parent)
             {
                 compo.RegisterEvents(parent);
@@ -32,7 +32,7 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
     {
         foreach (var compo in _components.Values)
         {
-            // this¸¦ T·Î Ä³½ºÆÃÇÏ¿© Àü´Ş
+            // thisë¥¼ Të¡œ ìºìŠ¤íŒ…í•˜ì—¬ ì „ë‹¬
             if (this is T parent)
             {
                 compo.UnregisterEvents(parent);

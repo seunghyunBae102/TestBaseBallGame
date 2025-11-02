@@ -20,7 +20,7 @@ public class Fielder : Pawn,IBallHitable
 
     
 
-    public void OnHitByBall(HitedBall ball, RaycastHit hit) //Àâ´Â ±â´Éµµ ºĞ¸® ÇÏ´Â °Ô ÁÁÀ¸·Á³ª?
+    public void OnHitByBall(HitedBall ball, RaycastHit hit) //ì¡ëŠ” ê¸°ëŠ¥ë„ ë¶„ë¦¬ í•˜ëŠ” ê²Œ ì¢‹ìœ¼ë ¤ë‚˜?
     {
         
     }

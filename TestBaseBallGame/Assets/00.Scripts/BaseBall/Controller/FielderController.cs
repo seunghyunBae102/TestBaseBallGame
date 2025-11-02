@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class FielderController : Controller
 {
-    //FielderµéÀ» ¿òÁ÷ÀÏ ÄÁÆ®·Ñ·¯
+    //Fielderë“¤ì„ ì›€ì§ì¼ ì»¨íŠ¸ë¡¤ëŸ¬
 }

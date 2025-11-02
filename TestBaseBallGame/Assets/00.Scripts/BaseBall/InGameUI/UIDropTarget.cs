@@ -6,17 +6,17 @@ using UnityEngine.EventSystems;
 public class UIDropTarget : MonoBehaviour, IUIDropTarget, IDropHandler
 {
     [Header("Events")]
-    public GameObjectEvent onReceived;  // ÀÌ Å¸°Ù À§¿¡ µå·ÓµÈ ¿ÀºêÁ§Æ®
+    public GameObjectEvent onReceived;  // ì´ íƒ€ê²Ÿ ìœ„ì— ë“œë¡­ëœ ì˜¤ë¸Œì íŠ¸
     [System.Serializable] public class GameObjectEvent : UnityEvent<GameObject> { }
 
-    // Ä¿½ºÅÒ ÀÎÅÍÆäÀÌ½º °æ·Î
+    // ì»¤ìŠ¤í…€ ì¸í„°í˜ì´ìŠ¤ ê²½ë¡œ
     public virtual void OnUIDrop(GameObject dropped)
     {
         onReceived?.Invoke(dropped);
-        // TODO: ¿©±â¼­ ¿øÇÏ´Â ·ÎÁ÷ (¿¹: ºÎ¸ğ ¹Ù²Ù±â, ½º³À µî)
+        // TODO: ì—¬ê¸°ì„œ ì›í•˜ëŠ” ë¡œì§ (ì˜ˆ: ë¶€ëª¨ ë°”ê¾¸ê¸°, ìŠ¤ëƒ… ë“±)
     }
 
-    // Ç¥ÁØ ÀÌº¥Æ® ½Ã½ºÅÛ °æ·Î
+    // í‘œì¤€ ì´ë²¤íŠ¸ ì‹œìŠ¤í…œ ê²½ë¡œ
     public virtual void OnDrop(PointerEventData eventData)
     {
         //var go = eventData.pointerDrag;

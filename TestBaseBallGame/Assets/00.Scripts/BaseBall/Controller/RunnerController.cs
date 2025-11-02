@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class RunnerController : Controller
 {
-    //Runner¸¦ ¿òÁ÷ÀÏ ÄÁÆ®·Ñ·¯
+    //Runnerë¥¼ ì›€ì§ì¼ ì»¨íŠ¸ë¡¤ëŸ¬
 }

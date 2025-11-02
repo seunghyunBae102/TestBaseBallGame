@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PawnPathFind : BaseBallGetableManager
 {
-    //Fielder, Runner µî¿¡¼­ Àå¾Ö¹° ÇÇÇØ¼­ °¡´Â ±â´É ±¸Çö¿ë ¸Å´ÏÀú ÄÄÆ÷³ÍÆ®
+    //Fielder, Runner ë“±ì—ì„œ ì¥ì• ë¬¼ í”¼í•´ì„œ ê°€ëŠ” ê¸°ëŠ¥ êµ¬í˜„ìš© ë§¤ë‹ˆì € ì»´í¬ë„ŒíŠ¸
     private Vector3 _maxtmp = new Vector3(10, 1, 10);
     public LayerMask la;
     private List<Vector3> _dir = new List<Vector3>();

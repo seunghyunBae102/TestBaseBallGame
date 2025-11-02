@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class BaseBallRule : BaseBallGetableManager
 {
-    //3½ºÆ®¶óÀÌÅ© ½Ã ÆÀ ¹Ù²Ù°Å³ª ±×·± ±â´Éµé.
+    //3ìŠ¤íŠ¸ë¼ì´í¬ ì‹œ íŒ€ ë°”ê¾¸ê±°ë‚˜ ê·¸ëŸ° ê¸°ëŠ¥ë“¤.
 
-    //¾Æ¿ô ÆÇÁ¤ (Runner¿¡ »ç¶óÁö´Â °Å ±¸Çö µî)
+    //ì•„ì›ƒ íŒì • (Runnerì— ì‚¬ë¼ì§€ëŠ” ê±° êµ¬í˜„ ë“±)
 
-    //Á¡¼ö ¿Ã¶ó°¡´Â °Å ÆÇÁ¤(±×³É ½ºÄÚ¾î Áõ°¡)
+    //ì ìˆ˜ ì˜¬ë¼ê°€ëŠ” ê±° íŒì •(ê·¸ëƒ¥ ìŠ¤ì½”ì–´ ì¦ê°€)
 
-    //½ºÄÚ¾î, ÀÌ´× µî °æ±â ÁøÇà °ü·Ã ±×·± ±â´Éµé.
+    //ìŠ¤ì½”ì–´, ì´ë‹ ë“± ê²½ê¸° ì§„í–‰ ê´€ë ¨ ê·¸ëŸ° ê¸°ëŠ¥ë“¤.
 
     public void InitHitedBall()
     {

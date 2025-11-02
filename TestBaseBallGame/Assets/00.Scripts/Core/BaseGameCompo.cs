@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BaseGameCompo : MonoBehaviour
 {
-    public List<string> Mytag; // Unity tag´Â 1°³¹Û¿¡ ¾ÈµÇ´Â;; = Scat  // ±×·¸±â¿¡ µµÀÔµÈ ¿©·¯ tag¸¦ °¡Áú ¼ö ÀÖ´Â ½Ã½ºÅÛ!
+    public List<string> Mytag; // Unity tagëŠ” 1ê°œë°–ì— ì•ˆë˜ëŠ”;; = Scat  // ê·¸ë ‡ê¸°ì— ë„ì…ëœ ì—¬ëŸ¬ tagë¥¼ ê°€ì§ˆ ìˆ˜ ìˆëŠ” ì‹œìŠ¤í…œ!
 
     public bool HasTag(string tag)
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public interface IPoolable
-{              // ¼±ÅÃ: »óÅÂ ¸®¼Â/ÈÅ
+{              // ì„ íƒ: ìƒíƒœ ë¦¬ì…‹/í›…
     void OnSpawned();
     void OnDespawned();
 }
@@ -45,9 +45,9 @@ public class PoolManager : GetableManager, ILifeCycleable<GameManager>
     protected PoolingObj InstantiateInstance(PoolProfileSO pf, Transform parent)
     {
         var go = Instantiate(pf.Prefab, parent);
-        go.OnDespawned(); // ºñÈ°¼ºÈ­
+        go.OnDespawned(); // ë¹„í™œì„±í™”
         //var rt = go.GetComponent<ReturnToPool>();
-        //if (!rt) rt = go.AddComponent<ReturnToPool>(); // ÀÚµ¿ ¹İ³³¿ë(¼±ÅÃ)
+        //if (!rt) rt = go.AddComponent<ReturnToPool>(); // ìë™ ë°˜ë‚©ìš©(ì„ íƒ)
         //rt.Bind(this, pf.Id);
 
         return go;
@@ -105,7 +105,7 @@ public class PoolManager : GetableManager, ILifeCycleable<GameManager>
 
 //    public void Return() => _mgr?.Despawn(_id, gameObject);
 
-//    // ¿¹: ÆÄÆ¼Å¬ ³¡³ª¸é ÀÚµ¿ ¹İ³³
+//    // ì˜ˆ: íŒŒí‹°í´ ëë‚˜ë©´ ìë™ ë°˜ë‚©
 //    void OnParticleSystemStopped() => Return();
 //}
 

@@ -9,19 +9,19 @@ public class FollowUI : MonoBehaviour,
 {
     [Header("Setup")]
     [SerializeField]
-    private Canvas _canvas;            // ºñ¿öµÎ¸é »óÀ§¿¡¼­ ÀÚµ¿ Å½»ö
+    private Canvas _canvas;            // ë¹„ì›Œë‘ë©´ ìƒìœ„ì—ì„œ ìë™ íƒìƒ‰
     [SerializeField] 
-    private bool _blockRaycastsWhileDragging = false; // µå·¡±× Áß ´Ù¸¥ UI Å¬¸¯ Çã¿ë ¿©ºÎ
+    private bool _blockRaycastsWhileDragging = false; // ë“œë˜ê·¸ ì¤‘ ë‹¤ë¥¸ UI í´ë¦­ í—ˆìš© ì—¬ë¶€
     [SerializeField] 
-    private bool _returnToStartIfNoDrop = false;      // µå·Ó Å¸°Ù ¾øÀ¸¸é ¿ø·¡ ÀÚ¸®·Î º¹±Í
+    private bool _returnToStartIfNoDrop = false;      // ë“œë¡­ íƒ€ê²Ÿ ì—†ìœ¼ë©´ ì›ë˜ ìë¦¬ë¡œ ë³µê·€
 
     [Header("Events")]
-    public UnityEvent onPressed;                       // ´©¸¦ ¶§
-    public UnityEvent onBeginDrag;                     // µå·¡±× ½ÃÀÛ
-    public Vector2Event onDragging;                    // µå·¡±× Áß (ÇöÀç anchoredPosition)
-    public UnityEvent onReleased;                      // ¶¿ ¶§(Å¬¸¯¾÷)
-    public UnityEvent onEndDrag;                       // µå·¡±× Á¾·á(¼º°ø/½ÇÆĞ Æ÷ÇÔ)
-    public GameObjectEvent onDroppedOn;                // µå·ÓµÈ ´ë»ó(¾øÀ¸¸é null)
+    public UnityEvent onPressed;                       // ëˆ„ë¥¼ ë•Œ
+    public UnityEvent onBeginDrag;                     // ë“œë˜ê·¸ ì‹œì‘
+    public Vector2Event onDragging;                    // ë“œë˜ê·¸ ì¤‘ (í˜„ì¬ anchoredPosition)
+    public UnityEvent onReleased;                      // ë—„ ë•Œ(í´ë¦­ì—…)
+    public UnityEvent onEndDrag;                       // ë“œë˜ê·¸ ì¢…ë£Œ(ì„±ê³µ/ì‹¤íŒ¨ í¬í•¨)
+    public GameObjectEvent onDroppedOn;                // ë“œë¡­ëœ ëŒ€ìƒ(ì—†ìœ¼ë©´ null)
 
     [System.Serializable] 
     public class Vector2Event : UnityEvent<Vector2> { }
@@ -31,7 +31,7 @@ public class FollowUI : MonoBehaviour,
     private RectTransform _rect;
     private CanvasGroup _cg;
     private Vector2 _startAnchoredPos;
-    private Vector2 _pointerOffsetLocal; // ¸¶¿ì½º Æ÷ÀÎÅÍ¿Í ¿ä¼Ò ÁÂÇ¥ÀÇ ¿ÀÇÁ¼Â
+    private Vector2 _pointerOffsetLocal; // ë§ˆìš°ìŠ¤ í¬ì¸í„°ì™€ ìš”ì†Œ ì¢Œí‘œì˜ ì˜¤í”„ì…‹
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class FollowUI : MonoBehaviour,
     public void OnBeginDrag(PointerEventData eventData)
     {
         onBeginDrag?.Invoke();
-        _cg.blocksRaycasts = _blockRaycastsWhileDragging;  // false¸é µå·¡±× Áß ÇÏÀ§°¡ µå·Ó Å¸°ÙÀ¸·Î È÷Æ®µÊ
+        _cg.blocksRaycasts = _blockRaycastsWhileDragging;  // falseë©´ ë“œë˜ê·¸ ì¤‘ í•˜ìœ„ê°€ ë“œë¡­ íƒ€ê²Ÿìœ¼ë¡œ íˆíŠ¸ë¨
         CachePointerOffset(eventData);
     }
 
@@ -62,7 +62,7 @@ public class FollowUI : MonoBehaviour,
         RectTransform parentRt = _rect.parent as RectTransform;
         if (!parentRt) return;
 
-        // ½ºÅ©¸° Æ÷ÀÎÆ®¸¦ ºÎ¸ğ ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
+        // ìŠ¤í¬ë¦° í¬ì¸íŠ¸ë¥¼ ë¶€ëª¨ ë¡œì»¬ ì¢Œí‘œë¡œ ë³€í™˜
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             parentRt, eventData.position, _canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : _canvas.worldCamera,
             out var local))
@@ -74,13 +74,13 @@ public class FollowUI : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // µå·Ó Å¸°Ù Ã£±â
+        // ë“œë¡­ íƒ€ê²Ÿ ì°¾ê¸°
         GameObject dropTarget = FindDropTarget(eventData);
 
-        // »ç¿ëÀÚ ÀÌº¥Æ®(µå·ÓµÈ ¿ÀºêÁ§Æ® ³Ñ°ÜÁÜ; ¾øÀ¸¸é null)
+        // ì‚¬ìš©ì ì´ë²¤íŠ¸(ë“œë¡­ëœ ì˜¤ë¸Œì íŠ¸ ë„˜ê²¨ì¤Œ; ì—†ìœ¼ë©´ null)
         onDroppedOn?.Invoke(dropTarget);
 
-        // Ç¥ÁØ IDropHandler¿¡µµ ¸Ş½ÃÁö Àü´Ş (ÀÖ´Ù¸é)
+        // í‘œì¤€ IDropHandlerì—ë„ ë©”ì‹œì§€ ì „ë‹¬ (ìˆë‹¤ë©´)
         if (dropTarget)
         {
             ExecuteEvents.ExecuteHierarchy(dropTarget, eventData, ExecuteEvents.dropHandler);
@@ -109,27 +109,27 @@ public class FollowUI : MonoBehaviour,
             parentRt, eventData.position, _canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : _canvas.worldCamera,
             out var local))
         {
-            // Æ÷ÀÎÅÍ°¡ ¹Ú½º ³»ºÎ ¾îµğ¸¦ Àâ¾Ò´ÂÁö ¿ÀÇÁ¼Â ±â¾ï
+            // í¬ì¸í„°ê°€ ë°•ìŠ¤ ë‚´ë¶€ ì–´ë””ë¥¼ ì¡ì•˜ëŠ”ì§€ ì˜¤í”„ì…‹ ê¸°ì–µ
             _pointerOffsetLocal = local - _rect.anchoredPosition;
         }
     }
 
     private GameObject FindDropTarget(PointerEventData eventData)
     {
-        // ÇöÀç Æ÷ÀÎÅÍ À§Ä¡·Î UI ·¹ÀÌÄ³½ºÆ®
+        // í˜„ì¬ í¬ì¸í„° ìœ„ì¹˜ë¡œ UI ë ˆì´ìºìŠ¤íŠ¸
         var results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
         foreach (var r in results)
         {
-            // 1) Ä¿½ºÅÒ IUIDropTarget ¸ÕÀú
+            // 1) ì»¤ìŠ¤í…€ IUIDropTarget ë¨¼ì €
             if (r.gameObject.TryGetComponent<IUIDropTarget>(out var custom))
             {
                 custom.OnUIDrop(gameObject);
                 return r.gameObject;
             }
 
-            // 2) Ç¥ÁØ IDropHandler°¡ ÀÖÀ¸¸é ±×°Íµµ Å¸±êÀ¸·Î ÀÎÁ¤
+            // 2) í‘œì¤€ IDropHandlerê°€ ìˆìœ¼ë©´ ê·¸ê²ƒë„ íƒ€ê¹ƒìœ¼ë¡œ ì¸ì •
             if (ExecuteEvents.CanHandleEvent<IDropHandler>(r.gameObject))
             {
                 return r.gameObject;
@@ -139,7 +139,7 @@ public class FollowUI : MonoBehaviour,
     }
 }
 
-/// <summary>Ä¿½ºÅÒ µå·Ó Å¸°Ù¿ë ÀÎÅÍÆäÀÌ½º(¿øÇÏ¸é »ç¿ë)</summary>
+/// <summary>ì»¤ìŠ¤í…€ ë“œë¡­ íƒ€ê²Ÿìš© ì¸í„°í˜ì´ìŠ¤(ì›í•˜ë©´ ì‚¬ìš©)</summary>
 public interface IUIDropTarget
 {
     void OnUIDrop(GameObject dropped);

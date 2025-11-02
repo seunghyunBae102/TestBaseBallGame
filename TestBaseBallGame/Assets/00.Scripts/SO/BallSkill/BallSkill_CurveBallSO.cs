@@ -5,7 +5,7 @@ public class BallSkill_CurveBallSO : BallSKillSO
 {
     public AnimationCurve curveX;
     public AnimationCurve curveY;
-    //½ÃÀÛ0 ³¡ 0 ¾Æ´Ï¸é ²ûÂïÇÑ °á°ú¸¦ º¸°Ô µÉ °ÍÀÎ
+    //ì‹œì‘0 ë 0 ì•„ë‹ˆë©´ ë”ì°í•œ ê²°ê³¼ë¥¼ ë³´ê²Œ ë  ê²ƒì¸
     //End is 0 and Start is 0, otherwise you will see terrible results SHitTT
 
     public override void BallMovement(BattingBall ball)

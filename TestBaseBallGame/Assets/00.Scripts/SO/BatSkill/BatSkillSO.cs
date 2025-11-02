@@ -17,7 +17,7 @@ public struct BatExtenceData
 [CreateAssetMenu(fileName = "BatSkillSO", menuName = "SO/BaseBallSkill/BatSkill/BatSkillSO")]
 public class BatSkillSO : ScriptableObject
 {
-    public Vector3 SweetSpotPos; //½ºÀ­½ºÆÌ - Àß ÃÄÁö´Â °÷ÀÎµ¥, ÀÌ ¿Ü¿¡µµ Àß »Ñ¶óÁö°Å³ª ±×·± °÷µµ ÀÖ³ë https://blog.naver.com/ysuny2/223159174301
+    public Vector3 SweetSpotPos; //ìŠ¤ìœ—ìŠ¤íŒŸ - ì˜ ì³ì§€ëŠ” ê³³ì¸ë°, ì´ ì™¸ì—ë„ ì˜ ë¿Œë¼ì§€ê±°ë‚˜ ê·¸ëŸ° ê³³ë„ ìˆë…¸ https://blog.naver.com/ysuny2/223159174301
 
     public BatExtenceData BatHitBox;
 

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class Batter : ActorComponent
 {
-    //Å¸±¸ ¹èÆ® À§Ä¡ ,Ä³¸¯ÅÍ,½ºÀ® ¾Ö´Ï¸ŞÀÌ¼Ç µîµî Ãß°¡ ÇÊ¿ä
+    //íƒ€êµ¬ ë°°íŠ¸ ìœ„ì¹˜ ,ìºë¦­í„°,ìŠ¤ìœ™ ì• ë‹ˆë©”ì´ì…˜ ë“±ë“± ì¶”ê°€ í•„ìš”
 
     public Vector3 BatPosition;
     public BatSkillSO BatSO;
@@ -29,13 +29,13 @@ public class Batter : ActorComponent
         return BatSO.HitBat(ball,this);
 
         //return false;
-        ////Å¸±¸ ÆÇÁ¤
+        ////íƒ€êµ¬ íŒì •
         //float distance = Vector3.Distance(ball.currentPos, BatPosition);
         //if (distance < BatSO.HitDistance)
         //{
-        //    //Å¸±¸ ¼º°ø
+        //    //íƒ€êµ¬ ì„±ê³µ
         //    Debug.Log("Hit the Ball!");
-        //    //Å¸±¸ Ã³¸® ·ÎÁ÷ Ãß°¡ ÇÊ¿ä
+        //    //íƒ€êµ¬ ì²˜ë¦¬ ë¡œì§ ì¶”ê°€ í•„ìš”
         //    ball.OnStopBall?.Invoke(ball);
         //}
         //return false;
@@ -44,7 +44,7 @@ public class Batter : ActorComponent
     public void SwingBat()
     {
         
-        //ÀÌ°Å FollowUI°°Àº°Å¿¡¼­ È£ÃâÇÔ. ¹èÆ® À§Ä¡ Á¤ÇÏ°í ÈÖµÎ·ç´Â °ÍÀÎ ¤·¤·
+        //ì´ê±° FollowUIê°™ì€ê±°ì—ì„œ í˜¸ì¶œí•¨. ë°°íŠ¸ ìœ„ì¹˜ ì •í•˜ê³  íœ˜ë‘ë£¨ëŠ” ê²ƒì¸ ã…‡ã…‡
         _isSwinging = true;
         
         GameManager.Instance.GetCompo<TimerManager>().AddTimer(EndSwing,BatSO.SwingDuration);

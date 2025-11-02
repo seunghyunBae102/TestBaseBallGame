@@ -3,11 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Pooling/Pool Profile")]
 public class PoolProfileSO : ScriptableObject
 {
-    public string Id;                 // "Ball", "HitSpark", "AnnouncerVoice" µî
-    public PoolingObj Prefab;         // ¶Ç´Â AssetReferenceGameObject (Addressables)
+    public string Id;                 // "Ball", "HitSpark", "AnnouncerVoice" ë“±
+    public PoolingObj Prefab;         // ë˜ëŠ” AssetReferenceGameObject (Addressables)
     public int PrewarmCount = 8;
     public int MaxCount = 64;
     public bool Expandable = true;
-    public bool DontDestroyInstances = true; // ¾À ÀüÈ¯ ÈÄ¿¡µµ º¸Á¸ÇÏ°í ½ÍÀ¸¸é
+    public bool DontDestroyInstances = true; // ì”¬ ì „í™˜ í›„ì—ë„ ë³´ì¡´í•˜ê³  ì‹¶ìœ¼ë©´
 }
 

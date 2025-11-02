@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class PitcherController : Controller
 {
-    //PitcherµéÀ» ¿òÁ÷ÀÏ ÄÁÆ®·Ñ·¯
+    //Pitcherë“¤ì„ ì›€ì§ì¼ ì»¨íŠ¸ë¡¤ëŸ¬
 }
