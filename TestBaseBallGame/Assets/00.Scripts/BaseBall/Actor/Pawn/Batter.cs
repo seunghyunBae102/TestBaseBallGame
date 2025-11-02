@@ -43,6 +43,8 @@ public class Batter : ActorComponent
 
     public void SwingBat()
     {
+        
+        //이거 FollowUI같은거에서 호출함. 배트 위치 정하고 휘두루는 것인 ㅇㅇ
         _isSwinging = true;
         
         GameManager.Instance.GetCompo<TimerManager>().AddTimer(EndSwing,BatSO.SwingDuration);
