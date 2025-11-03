@@ -1,21 +1,76 @@
 using UnityEngine;
 
-public class BaseBallRule : BaseBallGetableManager
+public class BaseBallRule : MonoBehaviour
 {
-    //3스트라이크 시 팀 바꾸거나 그런 기능들.
-
-    //아웃 판정 (Runner에 사라지는 거 구현 등)
-
-    //점수 올라가는 거 판정(그냥 스코어 증가)
-
-    //스코어, 이닝 등 경기 진행 관련 그런 기능들.
-
-    public void InitHitedBall()
+    [System.Serializable]
+    public class ScoreInfo
     {
-
+        public int runs;
+        public int hits;
+        public int errors;
     }
-    public void ChangeState()
+    
+    private ScoreInfo[] _teamScores = new ScoreInfo[2];
+    private int _strikes;
+    private int _balls;
+    private int _outs;
+    
+    public void AddStrike()
     {
-
+        _strikes++;
+        if (_strikes >= 3)
+        {
+            ProcessOut();
+        }
+    }
+    
+    public void AddBall()
+    {
+        _balls++;
+        if (_balls >= 4)
+        {
+            ProcessWalk();
+        }
+    }
+    
+    public void ProcessOut()
+    {
+        _outs++;
+        ResetCount();
+        
+        if (_outs >= 3)
+        {
+            // 이닝 종료
+            GameManager.Instance.GetCompo<BaseBallGameManager>().StartNewInning();
+        }
+    }
+    
+    private void ProcessWalk()
+    {
+        // 4구 처리
+        ResetCount();
+        // 주자 진루
+    }
+    
+    private void ResetCount()
+    {
+        _strikes = 0;
+        _balls = 0;
+    }
+    
+    public void AddRun(int teamIndex)
+    {
+        if (teamIndex >= 0 && teamIndex < 2)
+        {
+            _teamScores[teamIndex].runs++;
+        }
+    }
+    
+    public void AddHit(int teamIndex)
+    {
+        if (teamIndex >= 0 && teamIndex < 2)
+        {
+            _teamScores[teamIndex].hits++;
+        }
     }
 }

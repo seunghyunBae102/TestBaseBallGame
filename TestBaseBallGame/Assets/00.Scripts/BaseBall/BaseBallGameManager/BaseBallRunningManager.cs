@@ -67,15 +67,19 @@ public class BaseBallRunningManager : Actor, IGetCompoable<BaseBallGameManager>
         }
     }
 
+    internal void ProcessRunners(Vector3 ballPosition)
+    {
+        throw new NotImplementedException();
+        //柳风贸府 备泅
+    }
+
     public void RegisterEvents(BaseBallGameManager main)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public void UnregisterEvents(BaseBallGameManager main)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
-
-
 }

@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IBallHitable
 {
-    void OnHitByBall(HitedBall ball, RaycastHit hit);
+    void OnBallHit(Vector3 hitPoint, Vector3 hitNormal);
 }
