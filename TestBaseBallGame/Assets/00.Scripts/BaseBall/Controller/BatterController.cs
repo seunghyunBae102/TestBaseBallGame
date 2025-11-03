@@ -74,7 +74,7 @@ public class BatterController : Controller, IBattingControl
         
         if (_battingSystem != null)
         {
-            _battingSystem.Swing(targetPoint, power);
+            _battingSystem.Swing(targetPoint, power); 
         }
         
         _isReadyToBat = false;

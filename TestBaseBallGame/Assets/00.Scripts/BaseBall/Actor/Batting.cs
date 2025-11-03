@@ -22,7 +22,7 @@ public class Batting : Actor, IBallHitable
         GetOrAddCompo<BattingBall>().InitBall(start, targetPos, ballSkill);
     }
 
-    public void SwingBat()
+    public void Swing(Vector3 pos, float power)
     {
         
     }

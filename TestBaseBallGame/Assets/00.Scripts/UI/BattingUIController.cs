@@ -14,7 +14,7 @@ public class BattingUIController : MonoBehaviour
     private void Awake()
     {
         // BatterController 찾기
-        _batterController = FindObjectOfType<BatterController>();
+        //_batterController = FindObjectOfType<BatterController>();
         
         // FollowUI 이벤트 연결
         if (_followUI != null)

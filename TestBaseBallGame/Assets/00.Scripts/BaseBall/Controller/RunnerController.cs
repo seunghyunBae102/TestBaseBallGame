@@ -26,7 +26,7 @@ public class RunnerController : Controller
         
         if (_pathFinder != null)
         {
-            _pathFinder.SetDestination(basePosition);
+            //_pathFinder.SetDestination(basePosition);
         }
     }
 
@@ -34,9 +34,9 @@ public class RunnerController : Controller
     {
         if (!_isRunning) return;
 
-        if (_pathFinder != null && _pathFinder.HasPath)
+        if (_pathFinder != null)
         {
-            Vector3 moveDir = _pathFinder.GetNextPathDirection();
+            Vector3 moveDir = _pathFinder.PathFind(_targetBase);
             _movement.SetMovementInput(new Vector2(moveDir.x, moveDir.z));
         }
         
