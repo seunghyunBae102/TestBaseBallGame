@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Pawn : Actor
+public class Pawn: Actor
 {
     protected Controller _controller;
     public Controller Controller => _controller;

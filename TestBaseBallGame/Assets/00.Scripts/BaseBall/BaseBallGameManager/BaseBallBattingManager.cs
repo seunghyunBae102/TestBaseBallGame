@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-public class BaseBallBattingManager : BaseBallGetableManager
+public class BaseBallBattingManager : BaseBallGetableParentManager
 {
-
+    
 }

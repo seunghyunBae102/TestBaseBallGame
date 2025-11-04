@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 [Serializable]
@@ -46,8 +46,9 @@ public class BatSkillSO : ScriptableObject
 
         // closer SweetSpotPos -> more power
 
-        Vector3 hitedBallVelocity = new Vector3(0f,0f,5f) + ball.currentPos - bat.BatPosition;
+        Vector3 hitedBallVelocity = new Vector3(ball.currentPos.z,0f,1).normalized * Mathf.Lerp(1,0,Vector3.Distance(ball.currentPos , bat.BatPosition));
 
+        // 파워 곱하고 ㅇㅇ
     }
 
 }

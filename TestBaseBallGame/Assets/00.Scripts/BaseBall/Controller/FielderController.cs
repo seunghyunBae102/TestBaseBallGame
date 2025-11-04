@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FielderController : Controller
 {
-    private Pawn _controlledFielder;
+    private Fielder _controlledFielder;
     private PawnMovement _pawnMovement;
     private PawnPathFind _pathFinder;
     
@@ -12,9 +12,9 @@ public class FielderController : Controller
     private Vector3 _targetPosition;
     private bool _isChasing = false;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _controlledFielder = GetComponent<Pawn>();
+        
         _pawnMovement = GetComponent<PawnMovement>();
         _pathFinder = GetComponent<PawnPathFind>();
     }
@@ -53,5 +53,20 @@ public class FielderController : Controller
         Vector3 difference = position - transform.position;
         difference.y = 0;
         return difference.magnitude <= _catchRadius;
+    }
+
+    public void MoveToPosition(Vector3 position)
+    {
+        _controlledFielder.MoveToPosition(position);
+    }
+
+    public void CatchBall()
+    {
+        _controlledFielder.CatchBall();
+    }
+
+    public void ThrowBall(Vector3 targetPosition)
+    {
+        _controlledFielder.ThrowBall(targetPosition);
     }
 }

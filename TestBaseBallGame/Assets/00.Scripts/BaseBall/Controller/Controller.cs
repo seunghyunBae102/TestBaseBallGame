@@ -1,6 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Controller : MonoBehaviour
+public class Controller : Actor
 {
-    //Pawn들을 움직일 컨트롤러
+    protected Pawn _pawn;
+
+    protected override void Awake()
+    {
+        _pawn = GetComponent<Pawn>();
+        if (_pawn != null)
+        {
+            _pawn.SetController(this);
+        }
+    }
 }

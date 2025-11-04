@@ -1,58 +1,94 @@
-using System;
+﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 
-public class Batter : ActorComponent
+public class Batter : Pawn, IBattingControl
 {
-    //타구 배트 위치 ,캐릭터,스윙 애니메이션 등등 추가 필요
-
+    private Batting _battingSystem;
+    private PawnMovement _movement;
+    
     public Vector3 BatPosition;
-    public BatSkillSO BatSO;
+    [SerializeField] private float _maxBattingPower = 100f;
+    [SerializeField] private float _minBattingPower = 10f;
+    
+    private bool _isReadyToBat;
+    private Vector2 _battingStartPos;
+    private float _currentBattingPower;
+    
+    public bool CanBat => _isReadyToBat && _battingSystem != null;
 
-    public event Action<Vector2> OnMoveBatPosition;
-
-    protected bool _isSwinging = false;
-
-    public void MoveBat(Vector2 pos)
+    protected override void Awake()
     {
-        BatPosition = new Vector3(pos.x, pos.y, 0f);
-        OnMoveBatPosition?.Invoke(pos);
+        base.Awake();
+        _battingSystem = GetComponent<Batting>();
+        _movement = GetComponent<PawnMovement>();
     }
 
-    public bool CheckBallHit(BattingBall ball)
+    public void OnBattingStart(Vector2 position)
     {
-        if(!_isSwinging)
-            return false;
-
-        return BatSO.HitBat(ball,this);
-
-        //return false;
-        ////타구 판정
-        //float distance = Vector3.Distance(ball.currentPos, BatPosition);
-        //if (distance < BatSO.HitDistance)
-        //{
-        //    //타구 성공
-        //    Debug.Log("Hit the Ball!");
-        //    //타구 처리 로직 추가 필요
-        //    ball.OnStopBall?.Invoke(ball);
-        //}
-        //return false;
+        if (!CanBat) return;
+        _battingStartPos = position;
+        _currentBattingPower = _minBattingPower;
     }
 
-    public void SwingBat()
+    public void OnBattingDrag(Vector2 position)
     {
+        if (!CanBat) return;
+        float distance = Vector2.Distance(_battingStartPos, position);
+        _currentBattingPower = Mathf.Lerp(_minBattingPower, _maxBattingPower, 
+            distance / Screen.height);
+    }
+
+    public void OnBattingComplete(Vector2 position)
+    {
+        if (!CanBat) return;
+        Vector3 targetPoint = CalculateHitTarget(position);
+        ExecuteSwing(targetPoint, _currentBattingPower);
+    }
+
+    public void PrepareBat()
+    {
+        _isReadyToBat = true;
+        _battingSystem?.OnBattingPrepare();
+    }
+
+    private void ExecuteSwing(Vector3 targetPoint, float power)
+    {
+        if (!_isReadyToBat) return;
+        _battingSystem?.Swing(targetPoint,power);
+        _isReadyToBat = false;
+    }
+
+    public void MoveToPosition(Vector3 position)
+    {
+        if (_movement == null) return;
+        Vector2 moveDir = new Vector2(
+            position.x - transform.position.x,
+            position.z - transform.position.z).normalized;
+        _movement.SetMovementInput(moveDir);
+    }
+
+    private Vector3 CalculateHitTarget(Vector2 screenPosition)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         
-        //이거 FollowUI같은거에서 호출함. 배트 위치 정하고 휘두루는 것인 ㅇㅇ
-        _isSwinging = true;
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            return ray.GetPoint(enter);
+        }
         
-        GameManager.Instance.GetCompo<TimerManager>().AddTimer(EndSwing,BatSO.SwingDuration);
-        //GameManager.Instance.GetCompo<BaseBallGameManager>().GetCompo<BaseBallBattingManager>().BatterSwingBat(this);
+        return transform.position + transform.forward * 10f;
     }
 
-    public void EndSwing()
+    public void RegisterEvents(Actor main)
     {
-        _isSwinging = false;
+        throw new NotImplementedException();
+    }
+
+    public void UnregisterEvents(Actor main)
+    {
+        throw new NotImplementedException();
     }
 }
