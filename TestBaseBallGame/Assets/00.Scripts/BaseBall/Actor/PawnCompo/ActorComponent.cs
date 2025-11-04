@@ -11,12 +11,13 @@ public class ActorComponent : BaseGameCompo, IGetCompoable<Actor>
         if(Mom == null)
         {
             Transform trm = GetComponent<Transform>();
-
-            while (trm.parent != null && trm.gameObject.GetComponent<Actor>())
+            Actor actor = null;
+            while (trm.parent != null && !trm.gameObject.TryGetComponent<Actor>(out actor))
             {
                 trm = trm.parent;
             }
-            Init(trm.GetComponent<Actor>());
+            if(actor)
+            Init(actor);
         }
     }
 
