@@ -48,39 +48,58 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
         _components.Add((type,name), compo);
     }
 
-    public virtual void RemoveCompoDic(Type type,string name ="")
+    public virtual void RemoveCompoDic<K>(string name ="") where K : IGetCompoable<T>
     {
-        if (_components.ContainsKey(type))
-            _components.Remove(type);
+        if (HasCompo(typeof(K)))
+        {
+            GetCompo<K>(name)?.UnregisterEvents(this is T parent ? parent : default);
+            _components.Remove((typeof(K),name));
+        }
     }
-    public virtual void RemoveCompoDic(Type type)
+    public virtual void RemoveCompoDic<K>() where K : IGetCompoable<T>
     {
-        if (_components.ContainsKey(type))
-            _components.Remove(type);
+        if (HasCompo(typeof(K)))
+        {
+            foreach (var ((type, r), s) in _components)
+            {
+                if (typeof(K).IsAssignableFrom(type))
+                {
+                    s?.UnregisterEvents(this is T parent ? parent : default);
+                    _components.Remove((type, r));
+                    return;
+                }
+            }
+        }
     }
-    public virtual void AddRealCompo<K>(string name) where K : Component,IGetCompoable<T>
+    //public virtual void RemoveCompoDic(Type type)
+    //{
+    //    if (_components.ContainsKey(type))
+    //        _components.Remove(type);
+    //}
+    public virtual void AddRealCompo<K>(string name) where K : Component, IGetCompoable<T>
     {
         K instance = gameObject.AddComponent<K>();
         _components.Add((instance.GetType(),name), instance);
     }
-    public virtual K GetCompo<K>(bool isIncludeChild = false) where K : Component, IGetCompoable<T>
+    public virtual K GetCompo<K>(bool isIncludeChild = false) where K : IGetCompoable<T>
     {
-           K component = _components.FirstOrDefault(kv => kv.Key.type == typeof(T)).Value as K;
-
-        if(component)
-            return (K)component;
+        foreach (var ((type, r), s) in _components)
+        {
+            if (typeof(T) == type)
+                return (K)s;
+        }
 
         if (isIncludeChild == false) return default;
 
         foreach (var ((type, r), s) in _components)
         {
-            if (r == (name ?? "") && typeof(T).IsAssignableFrom(type))
+            if (typeof(T).IsAssignableFrom(type))
                 return (K)s;
         }
 
         return default;
     }
-    public virtual K GetCompo<K>(string name = "", bool isIncludeChild = false) where K : Component, IGetCompoable<T>
+    public virtual K GetCompo<K>(string name, bool isIncludeChild = false) where K : IGetCompoable<T>
     {
         if (_components.TryGetValue((typeof(K), name ?? ""), out var component))
         {
@@ -103,29 +122,14 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
         _components.Clear();
     }
 
-    public virtual IGetCompoable<T> GetCompo(Type type)
+    public virtual U GetOrAddCompo<U>(string name ="") where U : Component,IGetCompoable<T>
     {
-        return _components.TryGetValue(type, out var component) ? component : default;
-    }
+        U compo = GetCompo<U>(name);
 
-    public virtual U GetCompo<U>() where U : IGetCompoable<T>
-    {
-        if (_components.TryGetValue(typeof(U), out var component) && component is U result)
-        {
-            return result;
-        }
-        return default;
-    }
-    public virtual U GetOrAddCompo<U>() where U : Component,IGetCompoable<T>
-    {
-        if (_components.TryGetValue(typeof(U), out var component) && component is U result)
-        {
-            return result;
-        }
-        
-        AddRealCompo<U>();
+        if(compo == null)
+        AddRealCompo<U>(name);
 
-        return GetCompo<U>();
+        return GetCompo<U>(name);
     }
 
     public int CompoCount()

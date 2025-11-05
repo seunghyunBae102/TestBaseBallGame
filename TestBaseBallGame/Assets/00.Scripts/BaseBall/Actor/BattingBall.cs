@@ -59,7 +59,8 @@ public class BattingBall : ActorComponent
 
     public bool CheckBallHit(Vector3 pos)
     {
-        return Mom.GetCompo<Batter>().CheckBallHit(this);
+        Debug.Log("FixHere");
+        return false;//Mom.GetCompo<Batter>().CheckBallHit(this);
     }
 
     public void AddPos(Vector3 pos)
