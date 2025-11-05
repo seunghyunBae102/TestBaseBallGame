@@ -1,3 +1,5 @@
+﻿using System;
+
 public interface IGetCompoParent<T> where T : IGetCompoParent<T>
 {
     //EventBus EventBus { get; }
@@ -11,8 +13,9 @@ public interface IGetCompoParent<T> where T : IGetCompoParent<T>
 
     public IGetCompoable<T> GetCompo(System.Type type);
     public U GetCompo<U>() where U : IGetCompoable<T>;
-    public bool HasCompo(System.Type type);
-    public bool HasCompo<U>() where U : IGetCompoable<T>;
+    public bool HasCompo(Type type);
+    public bool HasCompo(Type type, string name);
+    public bool HasCompo(string name);
     public int CompoCount();
     public void ForEachCompo(System.Action<IGetCompoable<T>> action);
     public void ForEachCompo<U>(System.Action<U> action) where U : IGetCompoable<T>;

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEngine;
 
 public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T : IGetCompoParent<T>
 {
-    protected Dictionary<Type,IGetCompoable<T>> _components = new Dictionary<Type, IGetCompoable<T>>();
+    protected Dictionary<(Type type,string id),IGetCompoable<T>> _components = new Dictionary<(Type,string), IGetCompoable<T>>();
 
     // public EventBus EventBus { get; private set; }
     protected virtual void Awake()
@@ -41,39 +42,61 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
     }
 
 
-    public virtual void AddCompoDic(Type type, IGetCompoable<T> compo)
+    public virtual void AddCompoDic(Type type, IGetCompoable<T> compo, string name = "")
     {
-        if(!_components.ContainsKey(type))
-        _components.Add(type, compo);
+        if(!HasCompo(type))
+        _components.Add((type,name), compo);
     }
 
+    public virtual void RemoveCompoDic(Type type,string name ="")
+    {
+        if (_components.ContainsKey(type))
+            _components.Remove(type);
+    }
     public virtual void RemoveCompoDic(Type type)
     {
         if (_components.ContainsKey(type))
             _components.Remove(type);
     }
-    public virtual void AddRealCompo<K>() where K : Component,IGetCompoable<T>
+    public virtual void AddRealCompo<K>(string name) where K : Component,IGetCompoable<T>
     {
         K instance = gameObject.AddComponent<K>();
-        _components.Add(instance.GetType(), instance);
+        _components.Add((instance.GetType(),name), instance);
     }
     public virtual K GetCompo<K>(bool isIncludeChild = false) where K : Component, IGetCompoable<T>
     {
-        if (_components.TryGetValue(typeof(K), out var component))
+           K component = _components.FirstOrDefault(kv => kv.Key.type == typeof(T)).Value as K;
+
+        if(component)
+            return (K)component;
+
+        if (isIncludeChild == false) return default;
+
+        foreach (var ((type, r), s) in _components)
+        {
+            if (r == (name ?? "") && typeof(T).IsAssignableFrom(type))
+                return (K)s;
+        }
+
+        return default;
+    }
+    public virtual K GetCompo<K>(string name = "", bool isIncludeChild = false) where K : Component, IGetCompoable<T>
+    {
+        if (_components.TryGetValue((typeof(K), name ?? ""), out var component))
         {
             return (K)component;
         }
 
         if (isIncludeChild == false) return default;
 
-        Type findType = _components.Keys.FirstOrDefault(type => type.IsSubclassOf(typeof(K)));
-        
-        if (findType != null)
-            return (K)_components[findType];
+        foreach (var ((type, r), s) in _components)
+        {
+            if (typeof(T).IsAssignableFrom(type))
+                return (K)s;
+        }
 
         return default;
     }
-
 
     public void ClearCompoDic()
     {
@@ -103,16 +126,6 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
         AddRealCompo<U>();
 
         return GetCompo<U>();
-    }
-
-    public bool HasCompo(Type type)
-    {
-        return _components.ContainsKey(type);
-    }
-
-    public bool HasCompo<U>() where U : IGetCompoable<T>
-    {
-        return _components.ContainsKey(typeof(U));
     }
 
     public int CompoCount()
@@ -155,5 +168,40 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
         }
 
         RegisterEvents();
+    }
+
+    public void AddCompoDic(Type type, IGetCompoable<T> compo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool HasCompo(Type type)
+    {
+        foreach (var ((type1, r), s) in _components)
+        {
+            if (type.IsAssignableFrom(type1))
+                return true;
+        }
+        return false;
+    }
+
+    public bool HasCompo(Type type, string name)
+    {
+        foreach (var ((type1, r), s) in _components)
+        {
+            if (r == (name ?? "") && type.IsAssignableFrom(type1))
+                return true;
+        }
+        return false;
+    }
+
+    public bool HasCompo(string name)
+    {
+        foreach (var ((type1, r), s) in _components)
+        {
+            if (r == (name ?? ""))
+                return true;
+        }
+        return false;
     }
 }
