@@ -150,4 +150,14 @@ public class Actor : GetCompoParentSample<Actor>, IGetCompoable<ActorManager>
     {
         _childActors.Remove(actor);
     }
+
+    public void RegisterEvents(ActorManager main)
+    {
+        
+    }
+
+    public void UnregisterEvents(ActorManager main)
+    {
+        
+    }
 }
