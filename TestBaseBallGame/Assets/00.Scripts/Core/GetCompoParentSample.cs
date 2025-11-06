@@ -11,7 +11,7 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
     // public EventBus EventBus { get; private set; }
     protected virtual void Awake()
     {
-        //EventBus = new EventBus(); // EventBus 초기화를 Awake에서 수행
+        
 
         Init();
 
@@ -155,7 +155,6 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
             }
         }
     }
-
     public virtual void Init()
     {
 
