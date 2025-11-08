@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class PawnPathFind : BaseBallGetableManager
 {
-    //Fielder, Runner 등에서 장애물 피해서 가는 기능 구현용 매니저 컴포넌트
+    //대충 코앞에 있는 장애물 피해서 가는거 - 복잡한 미로는 풀지 못함.
+    //아마 이거 재귀로 구현하거나 길게쏘고 이분탐색 조지면 보이는 범위 내에서 길 찾는 느낌으로 될 듯 ㅇㅇ (리얼리티 패스파이더);
     private Vector3 _maxtmp = new Vector3(10, 1, 10);
     public LayerMask la;
     private List<Vector3> _dir = new List<Vector3>();

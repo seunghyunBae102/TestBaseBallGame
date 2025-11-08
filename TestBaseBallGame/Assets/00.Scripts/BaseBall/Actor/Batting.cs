@@ -29,9 +29,11 @@ public class Batting : Actor, IBallHitable
 
     public void OnBattingPrepare()
     {
+
         // 타격 준비 상태 설정
         // 애니메이션 재생 등
     }
+
 
     public void OnBallHit(Vector3 hitPoint, Vector3 hitNormal)
     {

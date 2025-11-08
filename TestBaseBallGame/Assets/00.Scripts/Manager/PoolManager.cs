@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public interface IPoolable
-{              // 선택: 상태 리셋/훅
+{
     void OnSpawned();
     void OnDespawned();
 }
