@@ -44,6 +44,12 @@ public class Actor : GetCompoParentSample<Actor>, IGetCompoable<ActorManager>
 
     protected List<Actor> _childActors = new List<Actor>();
 
+    public virtual void InitailizeActor(string name = "", Actor dad = null)
+    {
+        _name = name;
+        _dad = dad;
+    }
+
     public override void Init()
     {
         
