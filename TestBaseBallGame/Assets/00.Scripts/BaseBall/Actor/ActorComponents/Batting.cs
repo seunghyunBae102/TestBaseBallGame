@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Batting : Actor, IBallHitable
+public class Batting : ActorComponent, IBallHitable
 {
     private BatSkillSO _currentBatSkill;
     private Transform _batPoint;
@@ -14,12 +14,13 @@ public class Batting : Actor, IBallHitable
     {
         base.Awake();
         _animator = GetComponent<Animator>();
-        _batPoint = transform.Find("BatPoint"); // 또는 SerializeField로 설정
+        
     }
     
     public void ThrowBall(Vector3 start, Vector3 targetPos, BallSKillSO ballSkill)
     {
-        GetOrAddCompo<BattingBall>().InitBall(start, targetPos, ballSkill);
+        //GetOrAddCompo<BattingBall>().InitBall(start, targetPos, ballSkill);
+        //이거 컴포넌트가 아니라 액터여야할듯.
     }
 
     public void Swing(Vector3 pos, float power)

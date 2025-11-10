@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class ActorComponent : BaseGameCompo, IGetCompoable<Actor>
+public class ActorComponent : GetCompoParentSample<ActorComponent>, IGetCompoable<Actor>
 {
     [HideInInspector]
     public Actor Mom;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         //컴포넌트가 알아서 붙는
         if(Mom == null)
