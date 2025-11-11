@@ -4,6 +4,7 @@ using UnityEngine;
 public class BaseGameCompo : MonoBehaviour
 {
     public List<string> Mytag; // Unity tag는 1개밖에 안되는;; = Scat  // 그렇기에 도입된 여러 tag를 가질 수 있는 시스템!
+    //다시 생각해보니 좀 구린것 같긴 한데, 컴포넌트나 특정 오브젝트 찾거나 검증할 때는 좋은듯.
 
     public bool HasTag(string tag)
     {

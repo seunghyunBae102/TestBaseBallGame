@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Actor : GetCompoParentSample<Actor>, IGetCompoable<ActorManager>
 {
-    
+    protected ActorManager _mom;
+    public ActorManager Mom
+    {
+        get { return _mom; }
+        protected set { _mom = value; }
+    }
     protected Actor _dad; // Mom is Component's Parent(Actor's mom => ActorManager) so ParentActor is Dad HEHEHEHA
     public Actor Dad
     {
@@ -18,7 +23,32 @@ public class Actor : GetCompoParentSample<Actor>, IGetCompoable<ActorManager>
         protected set { _name = value; }
     }
 
+    protected void Start()
+    {
+        if(_mom == null)
+        {
+            Transform trm = transform;
+            while(true)
+            {
+                if(trm.gameObject.TryGetComponent<ActorManager>(out var mom))
+                {
+                    _mom = mom;
+                    _mom.AddCompoDic(this.GetType(), this);
+                    break;
+                }
+                if (trm.parent == null)
+                    break;
+            }
+        }
+    }
+
     protected List<Actor> _childActors = new List<Actor>();
+
+    public virtual void InitailizeActor(string name = "", Actor dad = null)
+    {
+        _name = name;
+        _dad = dad;
+    }
 
     public override void Init()
     {
@@ -94,7 +124,6 @@ public class Actor : GetCompoParentSample<Actor>, IGetCompoable<ActorManager>
             comps.AddRange(child.GetComposInChilndren<K>());
         }
         return comps;
-
     }
 
     public Actor GetDad()
@@ -153,11 +182,11 @@ public class Actor : GetCompoParentSample<Actor>, IGetCompoable<ActorManager>
 
     public void RegisterEvents(ActorManager main)
     {
-        
+        Mom = main;
     }
 
     public void UnregisterEvents(ActorManager main)
     {
-        
+        _mom.RemoveCompoDic<Actor>(this.Name);
     }
 }

@@ -16,6 +16,6 @@ public class Pawn: Actor
     }
 
 
-
+    //컨트롤러는 GetCompo로 가져와서 조지다 ㅎㅎ
 
 }
