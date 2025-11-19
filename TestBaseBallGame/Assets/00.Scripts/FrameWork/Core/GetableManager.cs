@@ -13,14 +13,15 @@ public class GetableManager : BaseGameCompo,IGetCompoable<GameManager>
 
     public void RegisterEvents(GameManager main)
     {
-        throw new System.NotImplementedException();
+        //if (this is IGameEventListener<SomeEvent> listener)
+        //    main.EventBus.Subscribe(listener);
     }
 
-    public void UnregisterEvents(GameManager main)
+    public virtual void UnregisterEvents(GameManager main)
     {
-        throw new System.NotImplementedException();
+        //if (this is IGameEventListener<SomeEvent> listener)
+        //    main.EventBus.Unsubscribe(listener);
     }
-
     private void Start()
     {
         if(Mom == null)

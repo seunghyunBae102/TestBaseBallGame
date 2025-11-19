@@ -1,0 +1,230 @@
+{
+  "encoding": "w = (tex - 0.5) * (2*scale)",
+  "kernels": [
+    {
+      "name": "box3",
+      "width": 3,
+      "height": 3,
+      "scale": 0.1111111119389534,
+      "sum": 1.0,
+      "min": 0.1111111119389534,
+      "max": 0.1111111119389534
+    },
+    {
+      "name": "gauss3_sigma1",
+      "width": 3,
+      "height": 3,
+      "scale": 4.0,
+      "sum": 16.0,
+      "min": 1.0,
+      "max": 4.0,
+      "post_mul": 0.0625
+    },
+    {
+      "name": "sharpen3_basic",
+      "width": 3,
+      "height": 3,
+      "scale": 5.0,
+      "sum": 1.0,
+      "min": -1.0,
+      "max": 5.0
+    },
+    {
+      "name": "sharpen3_strong",
+      "width": 3,
+      "height": 3,
+      "scale": 9.0,
+      "sum": 1.0,
+      "min": -1.0,
+      "max": 9.0
+    },
+    {
+      "name": "laplacian3_4n",
+      "width": 3,
+      "height": 3,
+      "scale": 4.0,
+      "sum": 0.0,
+      "min": -1.0,
+      "max": 4.0
+    },
+    {
+      "name": "laplacian3_8n",
+      "width": 3,
+      "height": 3,
+      "scale": 8.0,
+      "sum": 0.0,
+      "min": -1.0,
+      "max": 8.0
+    },
+    {
+      "name": "sobel3_x",
+      "width": 3,
+      "height": 3,
+      "scale": 2.0,
+      "sum": 0.0,
+      "min": -2.0,
+      "max": 2.0
+    },
+    {
+      "name": "sobel3_y",
+      "width": 3,
+      "height": 3,
+      "scale": 2.0,
+      "sum": 0.0,
+      "min": -2.0,
+      "max": 2.0
+    },
+    {
+      "name": "prewitt3_x",
+      "width": 3,
+      "height": 3,
+      "scale": 1.0,
+      "sum": 0.0,
+      "min": -1.0,
+      "max": 1.0
+    },
+    {
+      "name": "prewitt3_y",
+      "width": 3,
+      "height": 3,
+      "scale": 1.0,
+      "sum": 0.0,
+      "min": -1.0,
+      "max": 1.0
+    },
+    {
+      "name": "scharr3_x",
+      "width": 3,
+      "height": 3,
+      "scale": 10.0,
+      "sum": 0.0,
+      "min": -10.0,
+      "max": 10.0
+    },
+    {
+      "name": "scharr3_y",
+      "width": 3,
+      "height": 3,
+      "scale": 10.0,
+      "sum": 0.0,
+      "min": -10.0,
+      "max": 10.0
+    },
+    {
+      "name": "emboss3_ne",
+      "width": 3,
+      "height": 3,
+      "scale": 2.0,
+      "sum": 1.0,
+      "min": -2.0,
+      "max": 2.0
+    },
+    {
+      "name": "emboss3_se",
+      "width": 3,
+      "height": 3,
+      "scale": 2.0,
+      "sum": 1.0,
+      "min": -2.0,
+      "max": 2.0
+    },
+    {
+      "name": "motion3_h",
+      "width": 3,
+      "height": 3,
+      "scale": 1.0,
+      "sum": 3.0,
+      "min": 0.0,
+      "max": 1.0,
+      "post_mul": 0.3333333333333333
+    },
+    {
+      "name": "motion3_v",
+      "width": 3,
+      "height": 3,
+      "scale": 1.0,
+      "sum": 3.0,
+      "min": 0.0,
+      "max": 1.0,
+      "post_mul": 0.3333333333333333
+    },
+    {
+      "name": "motion3_diag",
+      "width": 3,
+      "height": 3,
+      "scale": 1.0,
+      "sum": 3.0,
+      "min": 0.0,
+      "max": 1.0,
+      "post_mul": 0.3333333333333333
+    },
+    {
+      "name": "box5",
+      "width": 5,
+      "height": 5,
+      "scale": 0.03999999910593033,
+      "sum": 1.0,
+      "min": 0.03999999910593033,
+      "max": 0.03999999910593033
+    },
+    {
+      "name": "gauss5_binomial",
+      "width": 5,
+      "height": 5,
+      "scale": 36.0,
+      "sum": 256.0,
+      "min": 1.0,
+      "max": 36.0,
+      "post_mul": 0.00390625
+    },
+    {
+      "name": "gauss5_sigma1p4",
+      "width": 5,
+      "height": 5,
+      "scale": 15.0,
+      "sum": 159.0,
+      "min": 2.0,
+      "max": 15.0,
+      "post_mul": 0.006289308176100629
+    },
+    {
+      "name": "sharpen5_wide",
+      "width": 5,
+      "height": 5,
+      "scale": 25.0,
+      "sum": 9.0,
+      "min": -2.0,
+      "max": 25.0
+    },
+    {
+      "name": "motion5_h",
+      "width": 5,
+      "height": 5,
+      "scale": 1.0,
+      "sum": 5.0,
+      "min": 0.0,
+      "max": 1.0,
+      "post_mul": 0.2
+    },
+    {
+      "name": "motion5_v",
+      "width": 5,
+      "height": 5,
+      "scale": 1.0,
+      "sum": 5.0,
+      "min": 0.0,
+      "max": 1.0,
+      "post_mul": 0.2
+    },
+    {
+      "name": "motion5_diag",
+      "width": 5,
+      "height": 5,
+      "scale": 1.0,
+      "sum": 5.0,
+      "min": 0.0,
+      "max": 1.0,
+      "post_mul": 0.2
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 public interface IGetCompoParent<T> where T : IGetCompoParent<T>
 {
-    //EventBus EventBus { get; }
+    GameEventBus EventBus { get; }
     void Init();
     void RegisterEvents();
     void UnregisterEvents();

@@ -8,7 +8,9 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
 {
     protected Dictionary<(Type type,string id),IGetCompoable<T>> _components = new Dictionary<(Type,string), IGetCompoable<T>>();
 
-    // public EventBus EventBus { get; private set; }
+    private readonly List<ILifeCycleable<T>> _lifeCycles = new();
+
+    public GameEventBus EventBus { get; private set; } = new GameEventBus();
     protected virtual void Awake()
     {
         
@@ -157,20 +159,50 @@ public class GetCompoParentSample<T> : BaseGameCompo,IGetCompoParent<T> where T 
     }
     public virtual void Init()
     {
-
         IGetCompoable<T>[] babies = GetComponentsInChildren<IGetCompoable<T>>(true);
         for (int i = 0; i < babies.Length; i++)
         {
             babies[i].Init(this is T parent ? parent : default);
         }
 
+        _lifeCycles.Clear();
         ILifeCycleable<T>[] babies2 = GetComponentsInChildren<ILifeCycleable<T>>(true);
         for (int i = 0; i < babies2.Length; i++)
         {
-            babies2[i].Init(this is T parent ? parent : default);
+            var lc = babies2[i];
+            lc.Init(this is T parent ? parent : default);
+            _lifeCycles.Add(lc);
         }
 
         RegisterEvents();
+
+
+        foreach (var lc in _lifeCycles)
+            lc.AfterInit();
+    }
+
+    protected virtual void Update()
+    {
+        float dt = Time.deltaTime;
+        foreach (var lc in _lifeCycles)
+            lc.Tick(dt);
+    }
+
+    // FixedUpdate Tick
+    protected virtual void FixedUpdate()
+    {
+        float fdt = Time.fixedDeltaTime;
+        foreach (var lc in _lifeCycles)
+            lc.TickFixed(fdt);
+    }
+
+    // 삭제 직전 콜백
+    protected virtual void OnDestroy()
+    {
+        foreach (var lc in _lifeCycles)
+            lc.BeforeDestroy();
+
+        UnregisterEvents();
     }
 
     public void AddCompoDic(Type type, IGetCompoable<T> compo)

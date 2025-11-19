@@ -1,14 +1,16 @@
 using UnityEngine;
+[System.Serializable]
+public class ScoreInfo
+{
+    public int runs;
+    public int hits;
+    public int errors;
+}
 
 public class BaseBallRule : MonoBehaviour
 {
-    [System.Serializable]
-    public class ScoreInfo
-    {
-        public int runs;
-        public int hits;
-        public int errors;
-    }
+
+    
     
     private ScoreInfo[] _teamScores = new ScoreInfo[2];
     private int _strikes;

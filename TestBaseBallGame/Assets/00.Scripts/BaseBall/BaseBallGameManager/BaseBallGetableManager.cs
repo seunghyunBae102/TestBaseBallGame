@@ -11,12 +11,12 @@ public class BaseBallGetableManager : BaseGameCompo, IGetCompoable<BaseBallGameM
         Mom = mom;
     }
 
-    public void RegisterEvents(BaseBallGameManager main)
+    public virtual void RegisterEvents(BaseBallGameManager main)
     {
         throw new System.NotImplementedException();
     }
 
-    public void UnregisterEvents(BaseBallGameManager main)
+    public virtual void UnregisterEvents(BaseBallGameManager main)
     {
         throw new System.NotImplementedException();
     }
