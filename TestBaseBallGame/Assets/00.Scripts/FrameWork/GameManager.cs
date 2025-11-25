@@ -41,20 +41,13 @@ public class GameManager : GetCompoParentSample<GameManager>
         base.Init();
     }
 
-    public override K GetCompo<K>(bool isIncludeChild = false)
+    public override T GetCompo<T>(bool isIncludeChild = false)
     {
-
-        //if (base.GetCompo<K>(isIncludeChild) == null)
-        //{
-        //    if (typeof(UnityEngine.Component).IsAssignableFrom(typeof(K)))
-        //        AddRealCompo<K>("");
-        //}
-        //return base.GetCompo<K>(isIncludeChild);
-        Debug.Log("FIXHERE)");
-
-
-        return base.GetCompo<K>(isIncludeChild);
-
+        if (base.GetCompo<T>(isIncludeChild) == null)
+        {
+            AddRealCompo<T>();
+        }
+        return base.GetCompo<T>(isIncludeChild);
 
         //Create Compo when No Compo HEHEHA
     }
