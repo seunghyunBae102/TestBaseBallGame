@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Bash.Framework.Core;
 
-public class TimerManager : GetableManager
+public class TimerManager : ManagerBase
 {
     private List<ITimerCombo> _timerComobs = new();
 
@@ -24,3 +25,4 @@ public class TimerManager : GetableManager
     }
 
 }
+

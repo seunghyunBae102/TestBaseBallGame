@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using Bash.Framework.Core;
 [RequireComponent(typeof(AudioSource))]
 public class SoundPoolObj : PoolingObj
 {
@@ -19,7 +20,7 @@ public class SoundPoolObj : PoolingObj
                 _audioSource.Play();
             }
         
-            GameManager.Instance.GetCompo<TimerManager>().AddTimer(new TimerCombo(TimeToDie,clip.length / _audioSource.pitch));
+            GameRoot.Instance.GetManager<TimerManager>().AddTimer(new TimerCombo(TimeToDie,clip.length / _audioSource.pitch));
         }
 
         

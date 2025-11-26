@@ -1,9 +1,22 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
+using Bash.Framework.Core;
 [RequireComponent(typeof(AudioSource))]
-public class SoundManager : GetableManager
+public class SoundManager : ManagerBase
 {
     protected PoolManager _pool;
+
+    public PoolManager pool
+    {
+        get
+        {
+            if(_pool == null)
+            {
+                _pool = GameRoot.Instance.GetManager<PoolManager>();
+            }
+            return _pool; 
+        }
+    }
     protected AudioSource _audioSource;
 
     private void Awake()
@@ -11,14 +24,9 @@ public class SoundManager : GetableManager
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void SetCompoParent(GameManager p)
-    {
-        _pool = p.GetCompo<PoolManager>();
-    }
-
     public void PlaySound(AudioResource clip, Vector3 pos)
     {
-        var go = _pool.Spawn("OneShotAudio", pos, Quaternion.identity);
+        var go = pool.Spawn("OneShotAudio", pos, Quaternion.identity);
         go.OnSpawned(clip);
 
         //StartCoroutine(ReturnOnEnd(src, go));

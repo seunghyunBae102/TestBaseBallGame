@@ -1,6 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
+using Bash.Framework.Core;
 
-public class PoolingObj : GetCompoParentSample<PoolingObj>
+public class PoolingObj : ManagerBase
 {
     protected PoolManager _poolManager;
     protected string _id;

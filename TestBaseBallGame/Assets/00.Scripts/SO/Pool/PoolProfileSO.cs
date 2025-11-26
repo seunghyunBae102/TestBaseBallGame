@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Pooling/Pool Profile")]
 public class PoolProfileSO : ScriptableObject

@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
+using Bash.Framework.Core;
 
 public interface IPoolable
 {
@@ -7,7 +8,7 @@ public interface IPoolable
     void OnDespawned();
 }
 
-public class PoolManager : GetableManager, ILifeCycleable<GameManager>
+public class PoolManager : ManagerBase
 {
     [SerializeField]
     protected PoolProfileSO[] _profiles;
@@ -22,7 +23,7 @@ public class PoolManager : GetableManager, ILifeCycleable<GameManager>
 
     readonly Dictionary<string, Pool> _pools = new();
 
-    public void SetCompoParent(GameManager p) => Mom = p;
+    //public void SetCompoParent(GameRoot p) => Mom = p;
 
     public void Init()
     {
@@ -108,4 +109,5 @@ public class PoolManager : GetableManager, ILifeCycleable<GameManager>
 //    // 예: 파티클 끝나면 자동 반납
 //    void OnParticleSystemStopped() => Return();
 //}
+
 

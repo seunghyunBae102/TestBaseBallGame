@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 
-
- public interface ITimerCombo
+public interface ITimerCombo
 {
-  public void CheckTime(float delta);
-public void RunMethod();
-  }
+    void CheckTime(float delta);
+    void RunMethod();
+}
 
-  public class TimerCombo : ITimerCombo
+public class TimerCombo : ITimerCombo
 {
     public Action method;
     public float remainingTime;
@@ -39,7 +38,7 @@ public class TimerComboOneParam<T> : ITimerCombo
     public float remainingTime;
     public T param;
 
-    public TimerComboOneParam(Action<T> a, float remainintT,T param)
+    public TimerComboOneParam(Action<T> a, float remainintT, T param)
     {
         method = a;
         remainingTime = remainintT;
@@ -60,14 +59,14 @@ public class TimerComboOneParam<T> : ITimerCombo
     }
 }
 
-public class TimerComboOneParam<T1,T2> : ITimerCombo
+public class TimerComboOneParam<T1, T2> : ITimerCombo
 {
-    public Action<T1,T2> method;
+    public Action<T1, T2> method;
     public float remainingTime;
     public T1 param;
     public T2 param2;
 
-    public TimerComboOneParam(Action<T1,T2> a, float remainintT, T1 param, T2 param2)
+    public TimerComboOneParam(Action<T1, T2> a, float remainintT, T1 param, T2 param2)
     {
         method = a;
         remainingTime = remainintT;
@@ -85,6 +84,6 @@ public class TimerComboOneParam<T1,T2> : ITimerCombo
     }
     public void RunMethod()
     {
-        method?.Invoke(param,param2);
+        method?.Invoke(param, param2);
     }
 }
