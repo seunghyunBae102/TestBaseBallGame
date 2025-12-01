@@ -93,6 +93,9 @@ namespace Bash.Framework.Core
 
         protected virtual void OnInit() { }
         public virtual void OnTick(float dt) { }
+
+        protected virtual void OnDestroy() { }
+
     }
 }
 
