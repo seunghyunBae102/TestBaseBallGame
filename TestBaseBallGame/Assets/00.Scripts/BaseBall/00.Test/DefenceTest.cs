@@ -33,15 +33,15 @@ namespace Bash.Test
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    _ai.OrderChase(hit.point);
+                    //_ai.OrderChase(hit.point);
                 }
             }
 
             // Space바 누르면 미리 지정된 타겟으로 이동
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _ai.OrderChase(_targetPos.position);
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    _ai.OrderChase(_targetPos.position);
+            //}
         }
     }
 }

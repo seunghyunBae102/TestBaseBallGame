@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic; // HashSet, List 사용
-using UnityEngine;
+﻿using Bash.Core.Rules;
 using Bash.Framework.Managers;
+using System.Collections.Generic; // HashSet, List 사용
+using UnityEngine;
 
 namespace Bash.Framework.Core
 {
@@ -50,6 +51,14 @@ namespace Bash.Framework.Core
             if (SystemRoot.GetComponent<PoolManager>() == null) SystemRoot.gameObject.AddComponent<PoolManager>();
             if (SystemRoot.GetComponent<TimerManager>() == null) SystemRoot.gameObject.AddComponent<TimerManager>();
             if (SystemRoot.GetComponent<SoundManager>() == null) SystemRoot.gameObject.AddComponent<SoundManager>();
+
+            if (SystemRoot.GetComponent<GameRuleManager>() == null) SystemRoot.gameObject.AddComponent<GameRuleManager>();
+
+            // [New] 아웃 판정 매니저 추가
+            if (SystemRoot.GetComponent<Bash.Core.Rules.OutLogicManager>() == null)
+                SystemRoot.gameObject.AddComponent<Bash.Core.Rules.OutLogicManager>();
+            if (SystemRoot.GetComponent<Bash.Core.GamePlay.AI.ThrowingDecisionSystem>() == null)
+                SystemRoot.gameObject.AddComponent<Bash.Core.GamePlay.AI.ThrowingDecisionSystem>();
 
             SystemRoot.InitializeComponents();
         }

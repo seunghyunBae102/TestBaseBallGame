@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Bash.Core.GamePlay.Environment;
 using Bash.Framework.Core;
 using Bash.Framework.Core.Events;
+using UnityEngine;
 
 namespace Bash.Core.Rules
 {
@@ -13,11 +14,18 @@ namespace Bash.Core.Rules
         public int OutCount = 0;
         public int Inning = 1;
 
+        private FieldZoneManager _zoneMgr;
         protected override void OnInit()
         {
             // 이벤트 구독 (사건 청취)
             Events.Subscribe<BallReachCatcherEvent>(OnBallReachCatcher);
             Events.Subscribe<BallHitEvent>(OnBallHit);
+
+            Events.Subscribe<BallHitGroundEvent>(OnBallHitGround);
+
+            // ZoneManager 찾기 (보통 SystemRoot나 WorldRoot에 있음)
+            _zoneMgr = GameRoot.Instance.GetManager<FieldZoneManager>();
+            if (_zoneMgr == null) _zoneMgr = GameRoot.Instance.FindNode<FieldZoneManager>();
 
             // 초기 상태 알림
             BroadcastState();
@@ -28,6 +36,7 @@ namespace Bash.Core.Rules
             // 구독 해제 (메모리 누수 방지)
             Events.Unsubscribe<BallReachCatcherEvent>(OnBallReachCatcher);
             Events.Unsubscribe<BallHitEvent>(OnBallHit);
+            Events.Unsubscribe<BallHitGroundEvent>(OnBallHitGround);
         }
 
         // --- A. 포수 미트 도달 시 판정 (스트라이크/볼) ---
@@ -196,6 +205,35 @@ namespace Bash.Core.Rules
                 Ball = BallCount,
                 Out = OutCount
             });
+        }
+        private void OnBallHitGround(BallHitGroundEvent evt)
+        {
+            if (_zoneMgr == null) return;
+
+            // 1. 구역 판정 요청
+            EZoneType zone = _zoneMgr.GetZoneType(evt.LandingPosition);
+
+            // 2. 결과 적용
+            switch (zone)
+            {
+                case EZoneType.Foul:
+                    Debug.Log($"<color=red>[Ref] FOUL BALL! (Pos: {evt.LandingPosition})</color>");
+                    // 파울 처리: 스트라이크 추가 (2스트라이크 이전까지만) 등
+                    ApplyJudgement(JudgementEvent.Type.Foul, "FOUL!");
+                    break;
+
+                case EZoneType.HomeRun:
+                    Debug.Log($"<color=magenta>[Ref] HOME RUN! (Pos: {evt.LandingPosition})</color>");
+                    AddScore(1); // 점수 추가
+                    ApplyJudgement(JudgementEvent.Type.HomeRun, "HOME RUN!");
+                    break;
+
+                case EZoneType.Fair:
+                    Debug.Log($"<color=green>[Ref] FAIR / HIT! (Pos: {evt.LandingPosition})</color>");
+                    // 안타 혹은 아웃 진행 (수비수가 잡았느냐에 따라 다름)
+                    // 일단은 인플레이 상황 지속
+                    break;
+            }
         }
     }
 }

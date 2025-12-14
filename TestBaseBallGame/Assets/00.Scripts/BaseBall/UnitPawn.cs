@@ -1,37 +1,42 @@
 ﻿using UnityEngine;
 using Bash.Framework.Core;
+using Bash.Core.Data;
 
 namespace Bash.Core.Unit
 {
-    [RequireComponent(typeof(UnitMovementCompo))]
     public class UnitPawn : ActorNode
     {
-        // 내 몸에 달린 기능들 캐싱
+        public PlayerDTO Data { get; private set; }
+        public bool IsHomeTeam { get; private set; }
+
         public UnitMovementCompo Movement { get; private set; }
+        public UnitStatCompo Stat { get; private set; }
 
         protected override void Awake()
         {
             base.Awake();
             Movement = GetCompo<UnitMovementCompo>();
+            Stat = GetCompo<UnitStatCompo>();
         }
 
-        // --- 공통 행동 명령 (Controller가 호출함) ---
-
-        public void MoveToLocation(Vector3 pos)
+        // [New] 데이터 초기화
+        public virtual void Initialize(PlayerDTO data, bool isHomeTeam)
         {
-            Movement.MoveTo(pos);
+            Data = data;
+            IsHomeTeam = isHomeTeam;
+
+            if (Data != null)
+            {
+                gameObject.name = $"{Data.Name}_{Data.ID}";
+                if (Stat != null) Stat.ApplyStats(Data.BaseStats);
+            }
         }
 
-        public void StopMovement()
-        {
-            Movement.Stop();
-        }
-
-        // 시선 처리
+        // [Fix] 시선 처리 메서드 추가 (RosterManager 등에서 호출)
         public void LookAt(Vector3 target)
         {
             Vector3 dir = (target - transform.position).normalized;
-            dir.y = 0; // 수평 유지
+            dir.y = 0;
             if (dir != Vector3.zero)
             {
                 transform.rotation = Quaternion.LookRotation(dir);

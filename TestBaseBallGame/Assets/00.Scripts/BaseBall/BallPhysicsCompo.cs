@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using Bash.Framework.Core;
+﻿using Bash.Framework.Core;
+using Bash.Framework.Core.Events;
+using UnityEngine;
 
 namespace Bash.Core.Ball
 {
@@ -7,21 +8,18 @@ namespace Bash.Core.Ball
     public class BallPhysicsCompo : ActorCompo
     {
         [Header("Settings")]
-        [SerializeField] private LayerMask _collisionMask; // 벽, 바닥, 배트 등
-        [SerializeField] private float _gravity = 20.0f; // 게임적 허용을 위해 실제보다 강하게
-        [SerializeField] private float _drag = 0.2f;
-        [SerializeField] private float _bounciness = 0.6f; // 반발 계수
-        public bool IsPitchingMode => _currentStrategy is PitchCurveStrategy;
+        [SerializeField] private LayerMask _collisionMask;
+        [SerializeField] private float _bounciness = 0.6f;
+
         private BallNode _ball;
         private IBallMovementStrategy _currentStrategy;
-
-        // 디버깅용 궤적 그리기
         private Vector3 _prevPos;
+
+        public bool IsPitchingMode => _currentStrategy is PitchCurveStrategy;
 
         protected override void OnInit()
         {
             _ball = (BallNode)Owner;
-            _currentStrategy = new StandardPhysicsStrategy(_gravity, _drag);
             _prevPos = transform.position;
         }
 
@@ -35,58 +33,80 @@ namespace Bash.Core.Ball
             _prevPos = transform.position;
         }
 
+        // [Fix] FielderPawn이 호출하는 메서드 추가
+        public void StopSimulation()
+        {
+            _currentStrategy = null;
+            if (_ball != null) _ball.Velocity = Vector3.zero;
+        }
+
+        // [Fix] FielderPawn이 호출하는 메서드 추가
+        public void Launch(Vector3 dir, float speed, IBallMovementStrategy strategy)
+        {
+            if (_ball != null)
+            {
+                _ball.Velocity = dir.normalized * speed;
+            }
+            SetStrategy(strategy);
+            ResetSimulation();
+        }
+
         public override void OnTick(float dt)
         {
-            if (_currentStrategy == null) return;
-            // 속도가 거의 없으면 연산 중지 (Sleep)
-            if (_ball.Velocity.sqrMagnitude < 0.01f) return;
+            if (_currentStrategy == null || _ball == null) return;
+            // 속도가 거의 없으면 스킵 (단, 전략이 충돌 체크를 원하면 계속)
+            if (_ball.Velocity.sqrMagnitude < 0.01f && _currentStrategy.ShouldCheckCollision()) return;
 
             Vector3 currentPos = transform.position;
             Vector3 velocity = _ball.Velocity;
 
-            // 1. 전략을 통해 "가고 싶은 위치" 계산
+            // 전략 이동
             Vector3 nextPos = _currentStrategy.CalculateNextPosition(dt, currentPos, ref velocity);
 
-            // 2. CCD (Continuous Collision Detection)
-            // 현재 위치와 다음 위치 사이를 레이캐스트로 검사
-            Vector3 direction = nextPos - currentPos;
-            float distance = direction.magnitude;
-
-            // (이동 거리가 너무 짧으면 검사 패스하되, 최소한의 안전장치는 필요)
-            if (distance > 0.001f)
+            // 충돌 처리
+            if (_currentStrategy.ShouldCheckCollision())
             {
-                // Raycast vs SphereCast: 공의 두께를 고려하려면 SphereCast 권장
-                if (Physics.SphereCast(currentPos, _ball.Radius, direction.normalized, out RaycastHit hit, distance, _collisionMask))
+                Vector3 direction = nextPos - currentPos;
+                float distance = direction.magnitude;
+
+                if (distance > 0.001f)
                 {
-                    HandleCollision(hit, ref nextPos, ref velocity);
+                    if (Physics.SphereCast(currentPos, _ball.Radius, direction.normalized, out RaycastHit hit, distance, _collisionMask))
+                    {
+                        HandleCollision(hit, ref nextPos, ref velocity);
+                    }
                 }
             }
 
-            // 3. 최종 적용
-            transform.position = nextPos;
-            _ball.Velocity = velocity; // 갱신된 속도(저항/충돌 적용됨) 저장
+            if (!_hasLanded && _currentStrategy is HitPhysicsStrategy && nextPos.y <= 0.05f)
+            {
+                _hasLanded = true;
 
-            // 디버그 시각화
-            Debug.DrawLine(_prevPos, transform.position, Color.red, 2.0f);
+                // 이벤트 발행
+                Events.Publish(new BallHitGroundEvent
+                {
+                    LandingPosition = nextPos
+                });
+
+                // (선택) 공을 땅에 붙이거나 튀기게 하기
+                // 여기서는 일단 바닥을 뚫지 않게 보정
+                nextPos.y = 0;
+                velocity.y = -velocity.y * 0.5f; // 바닥 튕김 (간단 구현)
+            }
+
+            transform.position = nextPos;
+            _ball.Velocity = velocity;
             _prevPos = transform.position;
         }
 
         private void HandleCollision(RaycastHit hit, ref Vector3 nextPos, ref Vector3 velocity)
         {
-            // A. 반사 벡터 계산 (V_new = Reflect(V_old, Normal) * Bounciness)
             Vector3 incoming = velocity;
             Vector3 normal = hit.normal;
             Vector3 reflected = Vector3.Reflect(incoming, normal) * _bounciness;
 
             velocity = reflected;
-
-            // B. 위치 보정 (뚫고 들어간 만큼 다시 튕겨 나오게 하기 - 간단 버전)
-            // 충돌 지점에서 조금 띄워줌
             nextPos = hit.point + (normal * _ball.Radius * 1.1f);
-
-            // C. 이벤트 발생 (소리, 파티클 등)
-            // GameRoot.Instance.Events.Publish(new BallHitEvent(hit)); 
-            // 예: 땅에 닿았으면 흙먼지, 벽이면 쿵 소리
         }
     }
 }

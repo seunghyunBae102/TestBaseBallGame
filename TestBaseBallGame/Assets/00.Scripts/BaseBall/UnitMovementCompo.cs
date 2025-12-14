@@ -13,6 +13,62 @@ namespace Bash.Core.Unit
         private bool _isMoving = false;
         private float _arrivalThreshold = 0.1f;
 
+
+        private UnitPawn _pawn;
+
+        protected override void OnInit()
+        {
+            base.OnInit();
+            _pawn = Owner as UnitPawn; // 스탯 접근을 위해 Pawn 캐싱
+            // InitializeSteering(); // (기존 Steering 초기화 함수)
+        }
+
+        public override void OnTick(float dt)
+        {
+            if (!_isMoving) return;
+
+            // [스탯 적용 1] 속도 계산 (Speed 스탯)
+            // 기본 4m/s + (스탯 * 0.05) -> 스탯 100일 때 9m/s
+            float statSpeed = (_pawn && _pawn.Stat) ? _pawn.Stat.GetStat(EStatType.Speed) : 50f;
+            float currentMoveSpeed = 4.0f + (statSpeed * 0.05f);
+
+            // [스탯 적용 2] 회전력 계산 (Reflex 스탯)
+            // 빠릿빠릿하게 도는지, 둔하게 도는지
+            float statReflex = (_pawn && _pawn.Stat) ? _pawn.Stat.GetStat(EStatType.Reflex) : 50f;
+            float currentRotSpeed = 5.0f + (statReflex * 0.2f);
+
+            // [스탯 적용 3] 스태미너 페널티 (Stamina)
+            if (_pawn && _pawn.Stat)
+            {
+                if (_pawn.Stat.CurrentStamina <= 1.0f)
+                {
+                    currentMoveSpeed *= 0.5f; // 지치면 속도 반토막
+                }
+                else
+                {
+                    _pawn.Stat.ConsumeStamina(5.0f * dt); // 뛰면 스태미너 소모
+                }
+            }
+
+            // --- 이동 로직 ---
+            float dist = Vector3.Distance(transform.position, _targetPos);
+            if (dist <= _arrivalThreshold)
+            {
+                _isMoving = false;
+                transform.position = _targetPos;
+                return;
+            }
+
+            // Context Steering (BestDir 계산은 생략 - 이전 코드 참조)
+            Vector3 bestDir = (_targetPos - transform.position).normalized; // 임시: 직선 이동
+
+            if (bestDir != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(bestDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, currentRotSpeed * dt);
+                transform.position += bestDir * currentMoveSpeed * dt;
+            }
+        }
         // 외부(Controller)에서 호출하는 이동 명령
         public void MoveTo(Vector3 target)
         {
@@ -24,36 +80,6 @@ namespace Bash.Core.Unit
         public void Stop()
         {
             _isMoving = false;
-        }
-
-        public override void OnTick(float dt)
-        {
-            if (!_isMoving) return;
-
-            Vector3 currentPos = transform.position;
-            Vector3 dir = (_targetPos - currentPos);
-            float dist = dir.magnitude;
-
-            // 1. 도착 판정
-            if (dist <= _arrivalThreshold)
-            {
-                _isMoving = false;
-                transform.position = _targetPos;
-                return;
-            }
-
-            // 2. 회전 (LookRotation) - 가려는 방향을 바라봄
-            dir.Normalize();
-            if (dir != Vector3.zero)
-            {
-                Quaternion targetRot = Quaternion.LookRotation(dir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, _rotationSpeed * dt);
-            }
-
-            // 3. 이동 (Translate)
-            transform.position += dir * _moveSpeed * dt;
-
-            // (추후 여기에 AnimationCompo.SetBool("IsRun", true) 호출)
         }
 
         // 디버깅용: 목적지 표시

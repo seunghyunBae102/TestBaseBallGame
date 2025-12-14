@@ -79,9 +79,22 @@ namespace Bash.Core.GamePlay
             Vector3 finalDir = (swingDir.normalized + Vector3.up * 0.3f).normalized;
             Vector3 finalVel = finalDir * (reboundPower + swingPower);
 
+            // [New] 뜬공 판정 로직
+            // 발사각이 일정 이상(예: 15도)이면 뜬공으로 간주
+            bool isFlyBall = finalDir.y > 0.25f;
+
+            // 이벤트 발행 (정보 포함)
+            GameRoot.Instance.Events.Publish(new BallHitEvent
+            {
+                LandingPoint = _targetBall.transform.position + (finalVel * 2.0f), // 낙구 예측값(임시)
+                IsFlyBall = isFlyBall
+            });
+
             // C. 공의 뇌를 '물리 모드'로 교체
             _targetBall.Velocity = finalVel;
             phys.SetStrategy(new HitPhysicsStrategy(gravity: 15f, drag: 0.2f));
+
+           
 
             // (선택) 카메라 연출 이벤트 발행
             // Events.Publish(new CameraZoomEvent(_targetBall.transform));
