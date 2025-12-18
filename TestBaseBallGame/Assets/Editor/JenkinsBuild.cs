@@ -13,7 +13,7 @@ public class JenkinsBuild
 
         // 2. 결과물이 저장될 경로와 파일명 설정
         // (젠킨스 workspace 내의 Builds 폴더에 저장하도록 설정)
-        string buildPath = "/Builds/MyGame.exe"; // 안드로이드는 .apk
+        string buildPath = "Builds/MyGame.exe"; // 안드로이드는 .apk
 
         // 3. 빌드 옵션 설정
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
